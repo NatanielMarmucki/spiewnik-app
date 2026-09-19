@@ -11,6 +11,7 @@ import 'package:spiewnik/view/favorite_songs_view.dart';
 import 'package:spiewnik/view/my_song_form_view.dart';
 import 'package:spiewnik/view/my_songs_view.dart';
 import 'package:spiewnik/view/settings_view.dart';
+import 'package:spiewnik/view/tablet_text_scale.dart';
 import 'package:spiewnik/view/welcome_view.dart';
 import 'package:spiewnik/view/widgets/app_navigation_bar.dart';
 import 'package:spiewnik/data/repositories/my_song_repository.dart';
@@ -134,6 +135,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       darkTheme: darkTheme,
       themeMode: context.watch<AppSettingsModel>().themeMode,
+      builder: (context, child) => TabletTextScale(child: child!),
       home: WelcomeGate(welcome: welcome, buildHome: (context) => HomeScreen(store: store)),
     );
   }

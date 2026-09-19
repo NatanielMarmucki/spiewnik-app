@@ -71,6 +71,12 @@ Two typefaces from Google Fonts, both with full `latin-ext` (ą ć ę ł ń ó �
 
 Not Inter and not Roboto.
 
+**Tablets** (shortest side at least 600 dp): all text is **×1.35** on top of the system text size,
+because a tablet often stands on a music stand, further from the eyes. The interface text, the song
+text (S × text scale; the slider still shows S) and the list rows grow with it; icons and spacing stay
+in dp. The combined scale is capped at ×2.0, the largest the layouts are tested at. Implemented in
+`TabletTextScale`.
+
 ### Interface scale (dp)
 
 | Role | Size / line height | Typeface |
