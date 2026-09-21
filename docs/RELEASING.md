@@ -13,6 +13,31 @@ there.
 
 ---
 
+## What Release Please does, and what stays manual
+
+`.github/workflows/release-please.yml` watches the Conventional Commits on `main` and keeps a release
+pull request open, titled `chore(main): release <version>`. That pull request writes `CHANGELOG.md` and
+the version in `pubspec.yaml`, including the build number (**+1 per release**). Merging it tags
+`v<version>` and publishes a GitHub Release with the same notes. The bot never merges anything.
+
+- **In the changelog:** `feat`, `fix`, `perf`, `revert`. Hidden: `build`, `chore`, `ci`, `docs`,
+  `refactor`, `style`, `test`. A `feat` bumps the minor version, a `fix` the patch one; a
+  `Release-As: 12.0.1` footer in a commit forces a version.
+- **Still by hand: everything below in this document** — the builds, the checks, Play Console,
+  App Store Connect, TestFlight, the store listings and the screenshots.
+- **Build numbers between releases:** a round of test builds needs its own build number, bumped by hand
+  (`build: bump the build number to N`, like #53). The bot adds +1 to whatever is in `pubspec.yaml` on
+  `main`, so a manual bump never collides with it.
+- **Token:** the workflow uses the `RELEASE_PLEASE_TOKEN` secret, a fine-grained personal access token
+  limited to this repository with **Contents** and **Pull requests** set to read and write. The built-in
+  `GITHUB_TOKEN` is not enough: this repository does not let Actions open pull requests, and a pull
+  request opened with it would not start CI, which `main` requires before merging. The token expires;
+  check its date in GitHub → Settings → Developer settings → Personal access tokens and renew it before
+  then. Symptom of an expired token: the Release Please job fails with a 403 and no release pull request
+  appears.
+
+---
+
 ## 0. Before the release
 
 ```bash
@@ -22,7 +47,8 @@ flutter test                    # everything green
 flutter analyze
 ```
 
-Bump the version in `pubspec.yaml` if this is a new release:
+Bump the version in `pubspec.yaml` if this is a new release (a release from the Release Please pull
+request already carries the new version and build number):
 
 ```yaml
 version: 12.0.1+7
