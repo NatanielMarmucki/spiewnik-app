@@ -1,0 +1,26 @@
+# Opens and updates a release pull request from the Conventional Commits on main: it writes
+# CHANGELOG.md and bumps the version in pubspec.yaml (the build number too, +1 per release).
+# Merging that pull request tags the release and publishes a GitHub Release.
+#
+# The token is a fine-grained personal access token, not GITHUB_TOKEN: pull requests opened with
+# GITHUB_TOKEN do not start CI, and main requires the CI checks to pass before merging.
+name: Release Please
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release-please:
+    name: Release pull request
+    runs-on: ubuntu-latest
+    steps:
+      - uses: googleapis/release-please-action@v4
+        with:
+          token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
