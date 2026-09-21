@@ -2,6 +2,13 @@
 
 Versions 1.1.0 and 1.2.1 were released before the project moved to Conventional Commits and have no changelog.
 
+## [12.1.0](https://github.com/NatanielMarmucki/spiewnik-app/compare/v12.0.0...v12.1.0) (2026-09-21)
+
+
+### Features
+
+* **tablet:** larger text on tablets ([#54](https://github.com/NatanielMarmucki/spiewnik-app/issues/54)) ([0cfd976](https://github.com/NatanielMarmucki/spiewnik-app/commit/0cfd976eafcb51b3eae2a47fef83bc099083d9ec))
+
 ## 12.0.0 (2026-09-21)
 
 ### Features
