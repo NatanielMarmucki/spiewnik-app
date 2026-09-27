@@ -7,6 +7,7 @@ import 'package:spiewnik/model/song_model.dart';
 import 'package:spiewnik/theme/app_colors.dart';
 import 'package:spiewnik/view/add_to_playlist_sheet.dart';
 import 'package:spiewnik/view/widgets/category_filter_sheet.dart';
+import 'package:spiewnik/view/widgets/search_limit_note.dart';
 import 'package:spiewnik/view/widgets/section_header.dart';
 import 'package:spiewnik/view/widgets/song_list_tile.dart';
 import 'package:spiewnik/viewmodel/playlist_viewmodel.dart';
@@ -170,9 +171,11 @@ class _PlaylistSongPickerViewState extends State<PlaylistSongPickerView> {
                   if (mine.isNotEmpty) ...['Moje pieśni', ...mine, 'Śpiewnik'],
                   ...songs,
                 ];
+                final cut = _search.matchCount > songs.length;
                 return ListView.builder(
-                  itemCount: rows.length,
-                  itemBuilder: (context, index) => switch (rows[index]) {
+                  itemCount: rows.length + (cut ? 1 : 0),
+                  itemBuilder: (context, index) => switch (index == rows.length ? null : rows[index]) {
+                    null => SearchLimitNote(shown: songs.length, total: _search.matchCount),
                     final String header => SectionHeader(label: header),
                     final MySong song => _tile(PlaylistEntry.mine(song)),
                     final Song song => _tile(PlaylistEntry.songbook(song), highlights: _search.titleMatches(song)),

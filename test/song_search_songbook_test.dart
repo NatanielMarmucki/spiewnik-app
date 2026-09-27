@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:spiewnik/json_manager.dart';
 import 'package:spiewnik/model/polish_collation.dart';
 import 'package:spiewnik/model/song_model.dart';
+import 'package:spiewnik/model/song_search.dart';
 import 'package:spiewnik/viewmodel/song_viewmodel.dart';
 
 import 'support/fakes/fake_song_repository.dart';
@@ -18,10 +19,8 @@ void main() {
     viewModel = SongViewModel(FakeSongRepository(songbook));
   });
 
-  List<int> search(String query) {
-    viewModel.searchText = query;
-    return [for (final song in viewModel.filteredSongsNotifier.value) song.number];
-  }
+  /// Every match, ranked; the list in the app shows at most [SongViewModel.searchResultLimit] of them.
+  List<int> search(String query) => [for (final song in SongSearch().filter(songbook, query)) song.number];
 
   group('several words', () {
     // Independent of the search code: word starts found with a regular expression on the plain text.
@@ -145,6 +144,29 @@ void main() {
 
     test('a word right after a repeat marker still matches from its start', () {
       expect(search('jerycho'), contains(1013));
+    });
+  });
+
+  group('long results (#52)', () {
+    test('a common word shows the best 100 of its matches and says how many there are', () {
+      viewModel.searchText = 'pan';
+
+      expect(viewModel.filteredSongsNotifier.value, hasLength(SongViewModel.searchResultLimit));
+      expect(viewModel.matchCount, search('pan').length);
+      expect(viewModel.filteredSongsNotifier.value.map((song) => song.number), search('pan').take(100));
+    });
+
+    test('a search by number is not cut, so no number disappears from the middle', () {
+      viewModel.searchText = '19';
+
+      expect(viewModel.filteredSongsNotifier.value.length, greaterThan(SongViewModel.searchResultLimit));
+      expect(viewModel.matchCount, viewModel.filteredSongsNotifier.value.length);
+    });
+
+    test('a narrow search is not affected', () {
+      viewModel.searchText = 'matko';
+
+      expect(viewModel.filteredSongsNotifier.value.length, viewModel.matchCount);
     });
   });
 }

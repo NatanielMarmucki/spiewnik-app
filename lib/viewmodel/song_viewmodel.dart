@@ -136,16 +136,32 @@ class SongViewModel {
     _loadFavoriteSongs();
   }
 
+  /// A search in words shows at most this many songs, the best ranked (#52): a common word („pan”, „serce”)
+  /// matches half the songbook, and a list of a thousand songs helps nobody. A search by number is not cut,
+  /// it keeps the order of numbers.
+  static const int searchResultLimit = 100;
+
+  static final RegExp _numberQuery = RegExp(r'^\s*\d+\s*$');
+
+  /// How many songs match the filter and the search; more than [filteredSongsNotifier] holds when the
+  /// results were cut at [searchResultLimit].
+  int get matchCount => _matchCount;
+  int _matchCount = 0;
+
   void _filterSongs() {
     // The filter and the search both apply: a song has to pass each of them.
     final songs = _inSubcategories(allSongsNotifier.value, subcategoryFilter);
     if (_searchText.isEmpty) {
+      _matchCount = songs.length;
       filteredSongsNotifier.value = List.from(songs);
       return;
     }
 
     // Diacritics are removed from both sides, so "zrodlo" finds "źródło" and "źródło" finds "zrodlo".
-    filteredSongsNotifier.value = _search.filter(songs, _searchText);
+    final matches = _search.filter(songs, _searchText);
+    _matchCount = matches.length;
+    final cut = matches.length > searchResultLimit && !_numberQuery.hasMatch(_searchText);
+    filteredSongsNotifier.value = cut ? matches.sublist(0, searchResultLimit) : matches;
   }
 
   /// Parts of [song]'s title matching the words of the search, with the original letters; empty when
