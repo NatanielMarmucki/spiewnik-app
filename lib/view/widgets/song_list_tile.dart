@@ -186,10 +186,7 @@ class _IndexLine extends StatelessWidget {
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: _gap),
-                    child: CustomPaint(
-                      painter: _LeaderDotsPainter(color: appColors.indexDots),
-                      size: const Size(double.infinity, 2.0),
-                    ),
+                    child: const LeaderDots(),
                   ),
                 ),
                 if (trailingText != null) Text(trailingText!, style: trailingStyle),
@@ -273,7 +270,19 @@ class _IndexLine extends StatelessWidget {
   }
 }
 
-/// Dotted leader line between the title and the number.
+/// Dotted leader line between a title and a number, as in a table of contents. Fills the width it gets.
+class LeaderDots extends StatelessWidget {
+  const LeaderDots({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomPaint(
+      painter: _LeaderDotsPainter(color: context.appColors.indexDots),
+      size: const Size(double.infinity, 2.0),
+    );
+  }
+}
+
 class _LeaderDotsPainter extends CustomPainter {
   final Color color;
 

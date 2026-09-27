@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:provider/provider.dart';
 import 'objectbox.g.dart';
 import 'json_manager.dart';
@@ -20,6 +21,7 @@ import 'package:spiewnik/viewmodel/my_song_viewmodel.dart';
 import 'package:spiewnik/viewmodel/song_viewmodel.dart';
 import 'package:spiewnik/model/app_settings_model.dart';
 import 'package:spiewnik/model/font_size_model.dart';
+import 'package:spiewnik/model/song_categories.dart';
 import 'package:spiewnik/post_migration_welcome.dart';
 import 'package:spiewnik/review_service.dart';
 import 'package:spiewnik/theme/theme.dart';
@@ -92,6 +94,7 @@ void main() async {
   final coreDataResult = await CoreDataMigration.runOnStartup(store: objectBoxStore, logger: logger);
   // Before runApp, so FontSizeModel loads the migrated font size.
   final migratedFontSize = await LegacySettingsMigration(logger: logger).run();
+  final categories = await _loadCategories();
   // From what the migrations returned in this session, not from their flags: see PostMigrationWelcome.
   final welcome = await PostMigrationWelcome(logger: logger).decide(
     coreDataResult: coreDataResult,
@@ -106,7 +109,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => AppSettingsModel()),
         Provider(create: (_) => SettingsViewModel()),
       ],
-      child: MyApp(store: objectBoxStore, welcome: welcome),
+      child: MyApp(store: objectBoxStore, categories: categories, welcome: welcome),
     ),
   );
 
@@ -115,8 +118,19 @@ void main() async {
   unawaited(ReviewService(logger: logger).onLaunch());
 }
 
+/// Without the table of contents the app still works, only without the category filter.
+Future<SongCategories> _loadCategories() async {
+  try {
+    return await SongCategories.load(rootBundle);
+  } catch (e, s) {
+    logger.e('Could not read ${SongCategories.assetPath}. The category filter is off.', error: e, stackTrace: s);
+    return SongCategories.empty;
+  }
+}
+
 class MyApp extends StatelessWidget {
   final Store store;
+  final SongCategories categories;
 
   /// The one-time welcome screen after the migration from the old iOS app, shown first; null skips it.
   final WelcomeVariant? welcome;
@@ -124,6 +138,7 @@ class MyApp extends StatelessWidget {
   const MyApp({
     super.key,
     required this.store,
+    this.categories = SongCategories.empty,
     this.welcome,
   });
 
@@ -136,7 +151,7 @@ class MyApp extends StatelessWidget {
       darkTheme: darkTheme,
       themeMode: context.watch<AppSettingsModel>().themeMode,
       builder: (context, child) => TabletTextScale(child: child!),
-      home: WelcomeGate(welcome: welcome, buildHome: (context) => HomeScreen(store: store)),
+      home: WelcomeGate(welcome: welcome, buildHome: (context) => HomeScreen(store: store, categories: categories)),
     );
   }
 }
@@ -144,14 +159,16 @@ class MyApp extends StatelessWidget {
 @immutable
 class HomeScreen extends StatefulWidget {
   final Store store;
+  final SongCategories categories;
 
   const HomeScreen({
     super.key,
     required this.store,
+    this.categories = SongCategories.empty,
   });
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
@@ -162,7 +179,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    viewModel = SongViewModel(ObjectBoxSongRepository(widget.store));
+    viewModel = SongViewModel(ObjectBoxSongRepository(widget.store), categories: widget.categories);
     mySongViewModel = MySongViewModel(ObjectBoxMySongRepository(widget.store));
   }
 

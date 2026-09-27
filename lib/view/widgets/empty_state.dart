@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:spiewnik/theme/app_colors.dart';
 import 'package:spiewnik/theme/app_text_theme.dart';
+import 'package:spiewnik/view/widgets/outlined_pill_button.dart';
 
 /// Empty state from docs/DESIGN-SYSTEM.md, section 5: a 26 dp line icon in the line color,
 /// a Newsreader 21 heading, a 14/1.55 sentence saying what to do and optionally one way out
@@ -14,6 +15,10 @@ class EmptyState extends StatelessWidget {
   final String? actionLabel;
   final VoidCallback? onAction;
 
+  /// Optional second way out below the first, as an outlined pill, e.g. „Usuń filtry” (Remove filters).
+  final String? secondaryActionLabel;
+  final VoidCallback? onSecondaryAction;
+
   const EmptyState({
     super.key,
     required this.icon,
@@ -21,6 +26,8 @@ class EmptyState extends StatelessWidget {
     required this.message,
     this.actionLabel,
     this.onAction,
+    this.secondaryActionLabel,
+    this.onSecondaryAction,
   });
 
   static const double iconSize = 26.0;
@@ -67,6 +74,10 @@ class EmptyState extends StatelessWidget {
                 constraints: const BoxConstraints(minHeight: 48.0),
                 child: ElevatedButton(onPressed: onAction, child: Text(actionLabel!)),
               ),
+            ],
+            if (secondaryActionLabel != null && onSecondaryAction != null) ...[
+              const SizedBox(height: 12.0),
+              OutlinedPillButton(label: secondaryActionLabel!, onPressed: onSecondaryAction),
             ],
           ],
         ),

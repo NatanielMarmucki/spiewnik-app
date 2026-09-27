@@ -23,17 +23,7 @@ class SongOptionsSheet extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12.0),
-            child: Container(
-              width: handleWidth,
-              height: handleHeight,
-              decoration: BoxDecoration(
-                color: appColors.line,
-                borderRadius: BorderRadius.circular(handleHeight),
-              ),
-            ),
-          ),
+          const SheetHandle(),
           for (var i = 0; i < options.length; i++) ...[
             // A hairline sets the destructive section off from the rest, so deleting does not sit in
             // one run with sharing.
@@ -102,6 +92,23 @@ class _Option extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+/// The 34 × 3 dp handle at the top of a sheet.
+class SheetHandle extends StatelessWidget {
+  const SheetHandle({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12.0),
+      child: Container(
+        width: SongOptionsSheet.handleWidth,
+        height: SongOptionsSheet.handleHeight,
+        decoration: BoxDecoration(color: context.appColors.line, borderRadius: BorderRadius.circular(3.0)),
       ),
     );
   }
