@@ -24,7 +24,7 @@ The screenshots are the golden test images, so they always show the current UI.
 
 ## Running locally
 
-Requirements: Flutter 3.47.4, Xcode with CocoaPods for iOS (ObjectBox is the only pod), Android Studio or
+Requirements: Flutter 3.47.4, Xcode for iOS (plugins come through Swift Package Manager, no CocoaPods), Android Studio or
 the Android SDK for Android.
 
 ```sh

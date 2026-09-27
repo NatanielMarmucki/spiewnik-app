@@ -216,7 +216,7 @@ If a change in `Info.plist` was intended in the same commit, do not restore the 
 App Store Connect rejects a build whose code uses a required-reason API (UserDefaults, file dates, free disk space
 and others) that no manifest declares. Plugins added through Swift Package Manager bring their own
 `PrivacyInfo.xcprivacy`, but not all of them declare what they use: `package_info_plus` reads the app bundle dates,
-and ObjectBox (CocoaPods) has no manifest at all. `ios/Runner/PrivacyInfo.xcprivacy` declares these reasons.
+and ObjectBox (Swift Package Manager, `ObjectBox.framework`) has no manifest at all. `ios/Runner/PrivacyInfo.xcprivacy` declares these reasons.
 
 After adding or bumping an iOS plugin, build the app and check what the binaries without a manifest use:
 

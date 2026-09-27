@@ -10,8 +10,8 @@
 # Overrides (for testing the script): OBJECTBOX_PLATFORM=linux-x64, OBJECTBOX_LIB_DIR=/some/dir
 set -euo pipefail
 
-readonly C_LIBRARY_VERSION="5.3.2"
-readonly DART_PACKAGE_VERSION="5.3.2"
+readonly C_LIBRARY_VERSION="6.0.0-beta"
+readonly DART_PACKAGE_VERSION="6.0.0-beta"
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 lib_dir="${OBJECTBOX_LIB_DIR:-${repo_root}/lib}"
@@ -42,17 +42,17 @@ fi
 case "${platform}" in
   macos-universal)
     archive="objectbox-macos-universal.zip"
-    checksum="680c598573ede04b9762565d48d4e161ad286f786f159abb8da89353bfa1d0bc"
+    checksum="4820f5d888261e582e3c9929391f4cee9d28f9ddb31bb4c8ef9d5d46c38687b6"
     library="libobjectbox.dylib"
     ;;
   linux-x64)
     archive="objectbox-linux-x64.tar.gz"
-    checksum="6dbb5450c36dd11ee9074f16ecc61e79b45ff43c2082934601f3166b39c8a613"
+    checksum="863e86340a52f1942918433610bc50ce89c90d9929e23564737d58df1a69e4ff"
     library="libobjectbox.so"
     ;;
   linux-aarch64)
     archive="objectbox-linux-aarch64.tar.gz"
-    checksum="bdfbfbf4971057e11018ca6645697d8a40ebc7df56ccde63397cbb0e0609c0e8"
+    checksum="6ee58ca3c78fd86509c2a8e356f1c80682820f697e8f71dda2afe2856ef266be"
     library="libobjectbox.so"
     ;;
   *)

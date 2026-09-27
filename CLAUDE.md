@@ -22,7 +22,7 @@ UI po polsku; kod, komentarze, commity i opisy PR po angielsku.
 - `lib/viewmodel/` — view modele: zwykłe klasy z `ValueNotifier`, zależności przez konstruktor.
 - `lib/view/` — ekrany. `SongDetailView` to `PageView` po całym śpiewniku: zmiana pieśni przewraca stronę, nie otwiera
   nowego ekranu. `ScreenWakeLock` (`view/screen_wake_lock.dart`) trzyma ekran włączony, gdy pieśń jest otwarta.
-- `ios/`, `android/` — projekty natywne. Wtyczki iOS idą przez Swift Package Manager; w CocoaPods został tylko ObjectBox.
+- `ios/`, `android/` — projekty natywne. Wszystkie wtyczki iOS, łącznie z ObjectBoksem, idą przez Swift Package Manager; projekt nie używa CocoaPods.
 - Dokumenty: `README.md` (opis, uruchomienie, testy w skrócie), `docs/DEVELOPMENT.md` (szczegóły testów, CI,
   test migracji E2E, pułapki), `docs/RELEASING.md` (wydanie), `docs/PARITY.md` (różnice wobec starej aplikacji iOS),
   `docs/DESIGN-SYSTEM.md` (system wizualny), `docs/SCHEMA-ZMYSONG.md` (schemat bazy iOS), `test/fixtures/README.md`.

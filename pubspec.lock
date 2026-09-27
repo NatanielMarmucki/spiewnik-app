@@ -536,27 +536,30 @@ packages:
   objectbox:
     dependency: "direct main"
     description:
-      name: objectbox
-      sha256: f68d74bfdfa6758cebf4cd319db1f4a4386c79ba8896d19e2e999faf041bac78
-      url: "https://pub.dev"
-    source: hosted
-    version: "5.3.2"
+      path: objectbox
+      ref: d189611e638e192594baee0b99e4bd78a3ef8b61
+      resolved-ref: d189611e638e192594baee0b99e4bd78a3ef8b61
+      url: "https://github.com/objectbox/objectbox-dart.git"
+    source: git
+    version: "6.0.0-beta"
   objectbox_flutter_libs:
     dependency: "direct main"
     description:
-      name: objectbox_flutter_libs
-      sha256: "604d26fac4548693449c9ea802e007d4adf7f31e361ae3ebf362ac142295078d"
-      url: "https://pub.dev"
-    source: hosted
-    version: "5.3.2"
+      path: flutter_libs
+      ref: d189611e638e192594baee0b99e4bd78a3ef8b61
+      resolved-ref: d189611e638e192594baee0b99e4bd78a3ef8b61
+      url: "https://github.com/objectbox/objectbox-dart.git"
+    source: git
+    version: "6.0.0-beta"
   objectbox_generator:
     dependency: "direct dev"
     description:
-      name: objectbox_generator
-      sha256: b5f6b9e6062635689d777ba2b3a16548991eb1e61007baf607022537e3bc0436
-      url: "https://pub.dev"
-    source: hosted
-    version: "5.3.2"
+      path: generator
+      ref: d189611e638e192594baee0b99e4bd78a3ef8b61
+      resolved-ref: d189611e638e192594baee0b99e4bd78a3ef8b61
+      url: "https://github.com/objectbox/objectbox-dart.git"
+    source: git
+    version: "6.0.0-beta"
   objective_c:
     dependency: transitive
     description:
