@@ -96,13 +96,17 @@ void main() {
     );
   });
 
-  testWidgets('reset sits above the keep-screen-on switch', (tester) async {
+  testWidgets('reset is a centered button right below the sliders, above the sample', (tester) async {
     await pumpSettings(tester);
 
-    final reset = tester.getCenter(find.text('Przywróć domyślny rozmiar i interlinię')).dy;
-    final wakeLock = tester.getCenter(find.text('Nie gaś ekranu przy pieśni')).dy;
+    final button = find.widgetWithText(OutlinedButton, 'Przywróć domyślny rozmiar i interlinię');
+    final reset = tester.getCenter(button);
+    final lineHeight = tester.getCenter(find.byType(SettingsSlider).last).dy;
+    final sample = tester.getCenter(find.byType(SongContent)).dy;
 
-    expect(reset, lessThan(wakeLock), reason: 'reset zostaje przy tym, czego dotyczy');
+    expect(reset.dy, greaterThan(lineHeight));
+    expect(reset.dy, lessThan(sample), reason: 'reset zostaje przy suwakach, których dotyczy');
+    expect(reset.dx, moreOrLessEquals(tester.getCenter(find.byType(SettingsSlider).last).dx, epsilon: 1.0));
   });
 
   group('keep screen on', () {

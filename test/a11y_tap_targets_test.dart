@@ -176,7 +176,7 @@ void main() {
     }
     expectTarget(
       tester,
-      find.widgetWithText(TextButton, 'Przywróć domyślny rozmiar i interlinię'),
+      find.widgetWithText(OutlinedButton, 'Przywróć domyślny rozmiar i interlinię'),
       'reset ustawień czytania',
     );
   });
