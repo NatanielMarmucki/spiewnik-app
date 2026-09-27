@@ -1,7 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart' show CustomSemanticsAction;
 import 'package:flutter/services.dart';
+import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:spiewnik/export/playlist_pdf.dart';
 import 'package:spiewnik/model/polish_date.dart';
 import 'package:spiewnik/model/polish_plural.dart';
 import 'package:spiewnik/theme/app_colors.dart';
@@ -170,6 +175,14 @@ class _PlaylistDetailViewState extends State<PlaylistDetailView> {
                     onTap: () => close(() => _shareTitles(details)),
                   ),
                 ),
+                SongOptionTile(
+                  option: SongOption(
+                    icon: Icons.picture_as_pdf_outlined,
+                    label: 'Pełne teksty · PDF',
+                    subtitle: 'Strona tytułowa i każda pieśń od nowej strony',
+                    onTap: () => close(() => _sharePdf(details)),
+                  ),
+                ),
                 const SectionHeader(label: 'Lista'),
                 SongOptionTile(
                   option: SongOption(
@@ -218,6 +231,30 @@ class _PlaylistDetailViewState extends State<PlaylistDetailView> {
         sharePositionOrigin: box == null ? null : box.localToGlobal(Offset.zero) & box.size,
       ),
     );
+  }
+
+  /// A file name from the list name, without the characters file systems reject.
+  static String fileName(String name, String extension) =>
+      '${name.replaceAll(RegExp(r'[\\/:*?"<>|\n]'), '_').trim()}.$extension';
+
+  Future<void> _sharePdf(PlaylistDetails details) async {
+    final messenger = ScaffoldMessenger.of(context);
+    final box = _shareButtonKey.currentContext?.findRenderObject() as RenderBox?;
+    final origin = box == null ? null : box.localToGlobal(Offset.zero) & box.size;
+    try {
+      final bytes = await buildPlaylistPdf(details, await PdfFonts.load(DefaultAssetBundle.of(context)));
+      final file = File(p.join((await getTemporaryDirectory()).path, fileName(details.playlist.name, 'pdf')));
+      await file.writeAsBytes(bytes, flush: true);
+      await SharePlus.instance.share(
+        ShareParams(
+          files: [XFile(file.path, mimeType: 'application/pdf')],
+          subject: details.playlist.name,
+          sharePositionOrigin: origin,
+        ),
+      );
+    } catch (error) {
+      messenger.showSnackBar(const SnackBar(content: Text('Nie udało się przygotować PDF')));
+    }
   }
 
   Future<void> _edit(PlaylistDetails details) async {

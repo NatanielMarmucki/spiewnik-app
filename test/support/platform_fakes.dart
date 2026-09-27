@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -104,5 +106,24 @@ class FakeInAppReview {
 
   void uninstall() {
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(_channel, null);
+  }
+}
+
+/// Answers path_provider's method channel with a temporary directory of the test.
+class FakePathProvider {
+  static const _channel = MethodChannel('plugins.flutter.io/path_provider');
+
+  final Directory directory = Directory.systemTemp.createTempSync('spiewnik_paths_');
+
+  void install() {
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+      _channel,
+      (MethodCall call) async => directory.path,
+    );
+  }
+
+  void uninstall() {
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(_channel, null);
+    directory.deleteSync(recursive: true);
   }
 }

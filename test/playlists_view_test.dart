@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -270,6 +272,50 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.text('Edytuj listę'), findsOneWidget);
       expect(tester.takeException(), isNull);
+    });
+  });
+
+  group('sharing', () {
+    late FakeShare share;
+    late FakePathProvider paths;
+
+    setUp(() {
+      share = FakeShare()..install();
+      paths = FakePathProvider()..install();
+    });
+    tearDown(() {
+      share.uninstall();
+      paths.uninstall();
+    });
+
+    testWidgets('„Tytuły z numerami” shares plain text', (tester) async {
+      await pumpList(tester);
+      await tester.tap(find.byTooltip('Udostępnij listę'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Tytuły z numerami'));
+      await tester.pumpAndSettle();
+
+      expect(
+        share.shares.single['text'],
+        'Nabożeństwo niedzielne — niedziela, 4 października 2026\n1. Pieśń 8 (8)\n2. Pieśń 114 (114)\n3. Wieczorna',
+      );
+    });
+
+    testWidgets('„Pełne teksty · PDF” shares a PDF file named after the list', (tester) async {
+      await pumpList(tester);
+      await tester.tap(find.byTooltip('Udostępnij listę'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Pełne teksty · PDF'));
+      // Building the PDF and writing the file are real I/O: let it run between frames.
+      for (var i = 0; i < 100 && share.shares.isEmpty; i++) {
+        await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 50)));
+        await tester.pump();
+      }
+      expect(find.text('Nie udało się przygotować PDF'), findsNothing);
+
+      final path = (share.shares.single['paths'] as List).single as String;
+      expect(path, endsWith('Nabożeństwo niedzielne.pdf'));
+      expect(File(path).readAsBytesSync().take(5), '%PDF-'.codeUnits);
     });
   });
 }
