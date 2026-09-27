@@ -102,19 +102,6 @@ void main() {
     ]);
   });
 
-  test('duplicating copies the songs and moves the date by a week', () {
-    final list =
-        viewModel.create(draft('Nabożeństwo', date: DateTime(2026, 10, 4)), songs: const [SongRef.songbook(8)]);
-
-    final copy = viewModel.duplicate(list);
-
-    expect(copy.name, 'Nabożeństwo (kopia)');
-    expect(copy.date, DateTime(2026, 10, 11));
-    expect(copy.color, PlaylistColor.sky);
-    expect(refsOf(copy), const [SongRef.songbook(8)]);
-    expect(viewModel.duplicate(viewModel.create(draft('x' * 60))).name.length, Playlist.maxNameLength);
-  });
-
   test('a deleted user song disappears from the list after a reload', () {
     final list = viewModel.create(draft('A'), songs: const [SongRef.mine(1), SongRef.songbook(4)]);
 

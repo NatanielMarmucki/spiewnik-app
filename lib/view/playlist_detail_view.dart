@@ -51,7 +51,7 @@ class PlaylistDetailView extends StatefulWidget {
 }
 
 class _PlaylistDetailViewState extends State<PlaylistDetailView> {
-  /// Anchor for the share sheet on iPad.
+  /// Anchor for the share sheet on iPad: the options button, where sharing starts.
   final GlobalKey _shareButtonKey = GlobalKey();
 
   PlaylistViewModel get _viewModel => widget.viewModel;
@@ -195,14 +195,6 @@ class _PlaylistDetailViewState extends State<PlaylistDetailView> {
                     onTap: () => close(() => _edit(details)),
                   ),
                 ),
-                SongOptionTile(
-                  option: SongOption(
-                    icon: Icons.copy_all_outlined,
-                    label: 'Duplikuj',
-                    subtitle: playlist.date == null ? null : 'Np. na kolejną niedzielę, z datą o tydzień później',
-                    onTap: () => close(() => _duplicate(details)),
-                  ),
-                ),
                 Divider(color: appColors.line, height: 1.0),
                 SongOptionTile(
                   option: SongOption(
@@ -268,21 +260,6 @@ class _PlaylistDetailViewState extends State<PlaylistDetailView> {
     }
   }
 
-  void _duplicate(PlaylistDetails details) {
-    final copy = _viewModel.duplicate(details.playlist);
-    ScaffoldMessenger.of(context)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(
-        SnackBar(
-          content: Text('Utworzono „${copy.name}”'),
-          action: SnackBarAction(
-            label: 'Otwórz',
-            onPressed: () => openPlaylist(context, id: copy.id, playlists: _viewModel, songs: widget.songs),
-          ),
-        ),
-      );
-  }
-
   Future<void> _delete(PlaylistDetails details) async {
     final confirmed = await showConfirmationDialog(
       context,
@@ -316,11 +293,6 @@ class _PlaylistDetailViewState extends State<PlaylistDetailView> {
               ),
               IconButton(
                 key: _shareButtonKey,
-                tooltip: 'Udostępnij listę',
-                onPressed: () => _showOptions(details),
-                icon: const Icon(Icons.ios_share, size: 22.0),
-              ),
-              IconButton(
                 tooltip: 'Opcje listy',
                 onPressed: () => _showOptions(details),
                 icon: const Icon(Icons.more_vert, size: 24.0),

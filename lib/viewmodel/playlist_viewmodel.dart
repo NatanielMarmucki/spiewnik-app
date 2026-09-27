@@ -167,27 +167,6 @@ class PlaylistViewModel {
     reload();
   }
 
-  /// A copy named „… (kopia)” with the same songs, a week later when the list has a date: the next Sunday's
-  /// service from this one.
-  Playlist duplicate(Playlist playlist) {
-    final date = playlist.date;
-    return create(
-      (
-        name: _copyName(playlist.name),
-        date: date == null ? null : DateTime(date.year, date.month, date.day + 7),
-        color: playlist.color,
-        icon: playlist.icon,
-      ),
-      songs: repository.songsOf(playlist.id),
-    );
-  }
-
-  static String _copyName(String name) {
-    const suffix = ' (kopia)';
-    final room = Playlist.maxNameLength - suffix.length;
-    return '${name.length > room ? name.substring(0, room).trimRight() : name}$suffix';
-  }
-
   /// How many of [refs] are on [playlist] already.
   int alreadyOn(Playlist playlist, List<SongRef> refs) {
     final on = repository.songsOf(playlist.id).toSet();

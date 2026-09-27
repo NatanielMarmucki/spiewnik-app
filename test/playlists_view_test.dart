@@ -259,7 +259,7 @@ void main() {
       expect(find.byType(PlaylistDetailView), findsOneWidget);
     });
 
-    testWidgets('options: copy numbers, duplicate and delete', (tester) async {
+    testWidgets('options: copy numbers and delete', (tester) async {
       String? clipboard;
       tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(SystemChannels.platform, (call) async {
         if (call.method == 'Clipboard.setData') {
@@ -279,17 +279,11 @@ void main() {
 
       await tester.tap(find.byTooltip('Opcje listy'));
       await tester.pumpAndSettle();
-      await tester.tap(find.text('Duplikuj'));
-      await tester.pumpAndSettle();
-      expect(playlists.playlistsNotifier.value.map((d) => d.playlist.name), contains('Nabożeństwo niedzielne (kopia)'));
-
-      await tester.tap(find.byTooltip('Opcje listy'));
-      await tester.pumpAndSettle();
       await tester.tap(find.text('Usuń listę'));
       await tester.pumpAndSettle();
       await tester.tap(find.widgetWithText(TextButton, 'Usuń'));
       await tester.pumpAndSettle();
-      expect(playlists.playlistsNotifier.value.map((d) => d.playlist.name), ['Nabożeństwo niedzielne (kopia)']);
+      expect(playlists.playlistsNotifier.value, isEmpty);
     });
   });
 
@@ -336,7 +330,7 @@ void main() {
 
     testWidgets('„Tytuły z numerami” shares plain text', (tester) async {
       await pumpList(tester);
-      await tester.tap(find.byTooltip('Udostępnij listę'));
+      await tester.tap(find.byTooltip('Opcje listy'));
       await tester.pumpAndSettle();
       await tester.tap(find.text('Tytuły z numerami'));
       await tester.pumpAndSettle();
@@ -349,7 +343,7 @@ void main() {
 
     testWidgets('„Pełne teksty · PDF” shares a PDF file named after the list', (tester) async {
       await pumpList(tester);
-      await tester.tap(find.byTooltip('Udostępnij listę'));
+      await tester.tap(find.byTooltip('Opcje listy'));
       await tester.pumpAndSettle();
       await tester.tap(find.text('Pełne teksty · PDF'));
       // Building the PDF and writing the file are real I/O: let it run between frames.
