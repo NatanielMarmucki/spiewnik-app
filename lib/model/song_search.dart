@@ -232,24 +232,19 @@ class _SearchText {
     return verse;
   }
 
-  /// Verse numbers, punctuation and the repeat markers' x, removed from the content before matching.
-  /// The set is kept as it was; issue #49 lists its inconsistencies (no 0, no /, x everywhere).
-  static final Set<int> _ignored = "123456789,.;:'[]()!?-”—„x".codeUnits.toSet();
-
-  /// Removes the ignored characters and collapses whitespace in one pass; the same result as removing
-  /// them and then applying [SongSearch.normalizeWhitespace], at a fraction of the cost (the regex alone
-  /// took about half of the first search). Also notes where verses start: after whitespace with a blank
-  /// line in it.
+  /// Splits the content into words on everything that is not a letter (see [SongSearch._isLetter]): verse
+  /// numbers, punctuation, the slashes of repeat markers. A separator becomes a space, so „Wiesz-li” is two
+  /// words, not „wieszli” (#49). The x of a repeat marker (`/x3`, `3x`) is a separator too; any other x is a
+  /// letter. Collapses whitespace in the same pass and notes where verses start: after a blank line.
   static (String, List<int>) _clean(String text) {
     final units = <int>[];
     final verseStarts = [0];
     var pendingSpace = false;
     var newlines = 0;
-    for (final unit in text.codeUnits) {
-      if (_ignored.contains(unit)) {
-        continue;
-      }
-      if (_isWhitespace(unit)) {
+    final codeUnits = text.codeUnits;
+    for (var i = 0; i < codeUnits.length; i++) {
+      final unit = codeUnits[i];
+      if (!SongSearch._isLetter(unit) || _isRepeatX(codeUnits, i)) {
         pendingSpace = units.isNotEmpty;
         if (unit == 0x0A) {
           newlines++;
@@ -269,17 +264,12 @@ class _SearchText {
     return (String.fromCharCodes(units), verseStarts);
   }
 
-  /// The characters matched by `\s` in a Dart regular expression.
-  static bool _isWhitespace(int unit) =>
-      (unit >= 0x09 && unit <= 0x0D) ||
-      unit == 0x20 ||
-      unit == 0xA0 ||
-      unit == 0x1680 ||
-      (unit >= 0x2000 && unit <= 0x200A) ||
-      unit == 0x2028 ||
-      unit == 0x2029 ||
-      unit == 0x202F ||
-      unit == 0x205F ||
-      unit == 0x3000 ||
-      unit == 0xFEFF;
+  /// Whether the x at [i] belongs to a repeat marker: right after a slash or a digit, or right before a digit.
+  static bool _isRepeatX(List<int> units, int i) {
+    if (units[i] != 0x78) {
+      return false;
+    }
+    bool isDigit(int at) => at >= 0 && at < units.length && units[at] >= 0x30 && units[at] <= 0x39;
+    return (i > 0 && units[i - 1] == 0x2F) || isDigit(i - 1) || isDigit(i + 1);
+  }
 }
