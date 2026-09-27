@@ -51,6 +51,8 @@ flutter_native_splash:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
   url_launcher: ^6.0.9
   package_info_plus: ^10.2.1
   provider: ^6.0.0
@@ -114,6 +116,9 @@ flutter:
           weight: 500
         - asset: assets/fonts/SchibstedGrotesk-SemiBold.ttf
           weight: 600
+    - family: IBMPlexMono
+      fonts:
+        - asset: assets/fonts/IBMPlexMono-Regular.ttf
 
   # To add assets to your application, add an assets section, like this:
   # assets:

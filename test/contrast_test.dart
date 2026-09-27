@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:spiewnik/model/playlist_model.dart';
 import 'package:spiewnik/theme/app_colors.dart';
 import 'package:spiewnik/theme/theme.dart';
 
@@ -61,6 +62,16 @@ void main() {
         foreground: app.textTertiary,
         background: Color.alphaBlend(app.line, sheet),
         min: 3.0),
+      for (final color in PlaylistColor.values)
+        for (final (where, background) in [
+          ('background', surface),
+          ('list tile (surface)', colors.surfaceContainer),
+          ('dialog', sheet),
+        ])
+          (what: 'list color ${color.name} on the $where',
+            foreground: app.playlistColor(color),
+            background: background,
+            min: 4.5),
     ];
   }
 

@@ -8,6 +8,9 @@ class AppFonts {
   /// Schibsted Grotesk: interface, labels, buttons, navigation.
   static const String ui = 'SchibstedGrotesk';
 
+  /// IBM Plex Mono: song numbers in song lists, e.g. „4 · 8 · 12”.
+  static const String mono = 'IBMPlexMono';
+
   const AppFonts._();
 }
 

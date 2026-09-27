@@ -45,6 +45,7 @@ Future<void> loadAppFonts() async {
       'assets/fonts/SchibstedGrotesk-Medium.ttf',
       'assets/fonts/SchibstedGrotesk-SemiBold.ttf',
     ],
+    'IBMPlexMono': ['assets/fonts/IBMPlexMono-Regular.ttf'],
   };
   for (final entry in fonts.entries) {
     final loader = FontLoader(entry.key);
