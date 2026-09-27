@@ -12,7 +12,10 @@ class MySongsView extends StatelessWidget {
   /// Passed on to the song view, see [MySongDetailView.onAddToPlaylist].
   final void Function(BuildContext context, MySong song)? onAddToPlaylist;
 
-  const MySongsView({super.key, required this.viewModel, this.onAddToPlaylist});
+  /// „+ Nowa pieśń” in the empty state, the same way out as „+ Nowa lista” on the lists.
+  final VoidCallback? onAdd;
+
+  const MySongsView({super.key, required this.viewModel, this.onAddToPlaylist, this.onAdd});
 
   @override
   Widget build(BuildContext context) {
@@ -23,10 +26,12 @@ class MySongsView extends StatelessWidget {
             valueListenable: viewModel.mySongsNotifier,
             builder: (context, mySongs, _) {
               if (mySongs.isEmpty) {
-                return const EmptyState(
+                return EmptyState(
                   icon: Icons.edit_note,
                   title: 'Brak własnych pieśni',
                   message: 'Dodaj własny tekst plusem w pasku u góry. Zostanie tylko na tym urządzeniu.',
+                  secondaryActionLabel: onAdd == null ? null : '+ Nowa pieśń',
+                  onSecondaryAction: onAdd,
                 );
               }
               return ListView.builder(

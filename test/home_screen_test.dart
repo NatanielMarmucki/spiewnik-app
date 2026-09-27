@@ -38,7 +38,7 @@ void main() {
   testWidgets('opens user songs from the third tab', (tester) async {
     await pumpHomeScreen(tester);
 
-    await tester.tap(find.text('Moje pieśni'));
+    await tester.tap(find.text('Moje'));
     await tester.pumpAndSettle();
 
     final indexedStack = tester.widget<IndexedStack>(find.byType(IndexedStack));
@@ -56,7 +56,7 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.byTooltip('Dodaj pieśń'), findsNothing);
 
-    await tester.tap(find.text('Moje pieśni'));
+    await tester.tap(find.text('Moje'));
     await tester.pumpAndSettle();
     await tester.tap(find.byTooltip('Dodaj pieśń'));
     await tester.pumpAndSettle();

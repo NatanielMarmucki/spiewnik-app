@@ -41,7 +41,7 @@ class EmptyState extends StatelessWidget {
     final appColors = context.appColors;
     final colors = Theme.of(context).colorScheme;
 
-    return Center(
+    final content = Center(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 32.0),
         child: Column(
@@ -94,6 +94,14 @@ class EmptyState extends StatelessWidget {
           ],
         ),
       ),
+    );
+    // Centered in the space it gets, and scrolling when a large system font does not fit in it.
+    return LayoutBuilder(
+      builder: (context, constraints) => constraints.hasBoundedHeight
+          ? SingleChildScrollView(
+              child: ConstrainedBox(constraints: BoxConstraints(minHeight: constraints.maxHeight), child: content),
+            )
+          : content,
     );
   }
 }

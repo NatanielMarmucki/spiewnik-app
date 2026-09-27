@@ -13,6 +13,7 @@ import 'package:spiewnik/theme/app_colors.dart';
 import 'package:spiewnik/theme/app_text_theme.dart';
 import 'package:spiewnik/view/confirmation_dialog.dart';
 import 'package:spiewnik/view/playlist_form_dialog.dart';
+import 'package:spiewnik/view/playlist_song_picker_view.dart';
 import 'package:spiewnik/view/song_detail_view.dart';
 import 'package:spiewnik/view/widgets/empty_state.dart';
 import 'package:spiewnik/view/widgets/playlist_icon.dart';
@@ -71,6 +72,9 @@ class _PlaylistDetailViewState extends State<PlaylistDetailView> {
       ),
     );
   }
+
+  void _addSongs() =>
+      pickSongsForPlaylist(context, playlistId: widget.playlistId, playlists: _viewModel, songs: widget.songs);
 
   void _move(PlaylistDetails details, int from, int to) {
     _viewModel.move(details.playlist, from, to);
@@ -306,6 +310,11 @@ class _PlaylistDetailViewState extends State<PlaylistDetailView> {
           appBar: AppBar(
             actions: [
               IconButton(
+                tooltip: 'Dodaj pieśni',
+                onPressed: _addSongs,
+                icon: const Icon(Icons.add, size: 24.0),
+              ),
+              IconButton(
                 key: _shareButtonKey,
                 tooltip: 'Udostępnij listę',
                 onPressed: () => _showOptions(details),
@@ -319,13 +328,18 @@ class _PlaylistDetailViewState extends State<PlaylistDetailView> {
             ],
           ),
           body: details.entries.isEmpty
-              ? ListView(
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     _Header(details: details, hint: false),
-                    const EmptyState(
-                      icon: Icons.queue_music,
-                      title: 'Lista jest pusta',
-                      message: 'Przytrzymaj pieśń w Śpiewniku, zaznacz kilka i dodaj je do tej listy.',
+                    Expanded(
+                      child: EmptyState(
+                        icon: Icons.queue_music,
+                        title: 'Lista jest pusta',
+                        message: 'Wybierz pieśni ze śpiewnika albo swoje. Kolejność zmienisz potem, przeciągając je.',
+                        actionLabel: 'Dodaj pieśni',
+                        onAction: _addSongs,
+                      ),
                     ),
                   ],
                 )
@@ -333,6 +347,7 @@ class _PlaylistDetailViewState extends State<PlaylistDetailView> {
                   valueListenable: _viewModel.reorderHintSeenNotifier,
                   builder: (context, hintSeen, _) => ReorderableListView.builder(
                     header: _Header(details: details, hint: !hintSeen && details.entries.length > 1),
+                    footer: _AddSongsRow(onTap: _addSongs),
                     buildDefaultDragHandles: false,
                     itemCount: details.entries.length,
                     onReorderStart: (_) => HapticFeedback.mediumImpact(),
@@ -503,6 +518,43 @@ class _EntryRow extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 4.0),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// „+ Dodaj pieśni” below the last song, where the next one would go.
+class _AddSongsRow extends StatelessWidget {
+  final VoidCallback onTap;
+
+  const _AddSongsRow({required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    final accent = context.appColors.accent;
+    return Semantics(
+      button: true,
+      label: 'Dodaj pieśni',
+      onTap: onTap,
+      container: true,
+      excludeSemantics: true,
+      child: InkWell(
+        onTap: onTap,
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(minHeight: 52.0),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            child: Row(
+              children: [
+                Icon(Icons.add, size: 18.0, color: accent),
+                const SizedBox(width: 10.0),
+                Expanded(
+                  child: Text('Dodaj pieśni', style: Theme.of(context).textTheme.labelLarge?.copyWith(color: accent)),
+                ),
               ],
             ),
           ),

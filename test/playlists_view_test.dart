@@ -11,6 +11,7 @@ import 'package:spiewnik/model/song_model.dart';
 import 'package:spiewnik/theme/theme.dart';
 import 'package:spiewnik/view/my_tab_view.dart';
 import 'package:spiewnik/view/playlist_detail_view.dart';
+import 'package:spiewnik/view/playlist_song_picker_view.dart';
 import 'package:spiewnik/view/song_detail_view.dart';
 import 'package:spiewnik/viewmodel/my_song_viewmodel.dart';
 import 'package:spiewnik/viewmodel/playlist_viewmodel.dart';
@@ -83,7 +84,6 @@ void main() {
 
       expect(find.text('Brak list'), findsOneWidget);
       expect(find.text('+ Nowa lista'), findsOneWidget);
-      expect(find.textContaining('przytrzymaj pieśń w Śpiewniku'), findsOneWidget);
     });
 
     testWidgets('groups lists into upcoming, undated and past, with the count in the tab', (tester) async {
@@ -110,7 +110,7 @@ void main() {
       expect(playlists.showListsNotifier.value, isFalse);
     });
 
-    testWidgets('the form creates a list only with a name, then opens it', (tester) async {
+    testWidgets('the form creates a list only with a name, then goes straight to picking songs', (tester) async {
       await pumpMyTab(tester);
       await tester.tap(find.text('+ Nowa lista'));
       await tester.pumpAndSettle();
@@ -128,8 +128,54 @@ void main() {
       final created = playlists.playlistsNotifier.value.single.playlist;
       expect((created.name, created.color, created.icon, created.date),
           ('Ślub', PlaylistColor.lilac, PlaylistIcon.rings, null));
+      expect(find.byType(PlaylistSongPickerView), findsOneWidget);
+      await tester.tap(find.text('Pieśń 114'));
+      await tester.tap(find.text('Pieśń 8'));
+      await tester.pump();
+      await tester.tap(find.text('Dodaj 2 pieśni'));
+      await tester.pumpAndSettle();
+
       expect(find.byType(PlaylistDetailView), findsOneWidget);
+      expect(find.text('Dodano 2 pieśni do „Ślub”'), findsOneWidget);
+      expect(playlists.byId(created.id)!.entries.map((e) => e.number), [8, 114]);
+    });
+  });
+
+  group('adding songs from a list', () {
+    testWidgets('an empty list offers „Dodaj pieśni”; the picker searches and adds', (tester) async {
+      final list = playlists.create(draft('Próba'));
+      await pumpScreen(tester, (context) => PlaylistDetailView(playlistId: list.id, viewModel: playlists, songs: songs));
       expect(find.text('Lista jest pusta'), findsOneWidget);
+
+      await tester.tap(find.widgetWithText(ElevatedButton, 'Dodaj pieśni'));
+      await tester.pumpAndSettle();
+      expect(find.text('Wieczorna'), findsOneWidget, reason: 'user songs can be picked too');
+      await tester.enterText(find.byType(TextField), '12');
+      await tester.pumpAndSettle();
+      expect(find.text('Pieśń 4'), findsNothing);
+      await tester.tap(find.text('Pieśń 12'));
+      await tester.pump();
+      await tester.tap(find.text('Dodaj 1 pieśń'));
+      await tester.pumpAndSettle();
+
+      expect(titles(list), ['Pieśń 12']);
+      expect(find.text('Dodaj pieśni'), findsOneWidget, reason: 'the row below the last song');
+    });
+
+    testWidgets('songs already on the list are checked and cannot be picked again', (tester) async {
+      final list = await pumpList(tester);
+      await tester.tap(find.byTooltip('Dodaj pieśni'));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('Pieśń 8'));
+      await tester.pump();
+      expect(find.text('Zaznacz pieśni'), findsOneWidget);
+      await tester.tap(find.text('Pieśń 4'));
+      await tester.pump();
+      await tester.tap(find.text('Dodaj 1 pieśń'));
+      await tester.pumpAndSettle();
+
+      expect(titles(list), ['Pieśń 8', 'Pieśń 114', 'Wieczorna', 'Pieśń 4']);
     });
   });
 

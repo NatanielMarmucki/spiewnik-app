@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:spiewnik/theme/app_colors.dart';
 import 'package:spiewnik/theme/app_text_theme.dart';
 import 'package:spiewnik/view/add_to_playlist_sheet.dart';
+import 'package:spiewnik/view/my_song_form_view.dart';
 import 'package:spiewnik/view/my_songs_view.dart';
 import 'package:spiewnik/view/playlist_detail_view.dart';
 import 'package:spiewnik/view/playlists_view.dart';
@@ -37,6 +38,10 @@ class MyTabView extends StatelessWidget {
                 ? PlaylistsView(viewModel: playlists, songs: songs)
                 : MySongsView(
                     viewModel: mySongs,
+                    onAdd: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MySongFormView(viewModel: mySongs)),
+                    ),
                     onAddToPlaylist: (context, song) => showAddToPlaylistSheet(
                       context,
                       viewModel: playlists,

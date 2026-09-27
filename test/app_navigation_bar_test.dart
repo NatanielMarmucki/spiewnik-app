@@ -73,7 +73,7 @@ void main() {
       ),
     );
 
-    await tester.tap(find.text('Moje pieśni'));
+    await tester.tap(find.text('Moje'));
     expect(tapped, 2);
   });
 
