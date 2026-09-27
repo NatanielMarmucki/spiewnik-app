@@ -93,7 +93,8 @@ class SongListViewState extends State<SongListView> {
           children: [
             Padding(
               // The search field is always visible (docs/DESIGN-SYSTEM.md, section 5).
-              padding: const EdgeInsets.fromLTRB(16.0, 12.0, 8.0, 8.0),
+              // Without the filter button the field keeps its full width, as before categories existed.
+            padding: EdgeInsets.fromLTRB(16.0, 12.0, widget.viewModel.categories.categories.isEmpty ? 16.0 : 8.0, 8.0),
               child: Row(
                 children: [
                   Expanded(child: _searchField(context, filter)),
