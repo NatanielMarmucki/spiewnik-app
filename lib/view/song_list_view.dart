@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:spiewnik/viewmodel/song_viewmodel.dart';
 import 'package:spiewnik/theme/app_colors.dart';
 import 'package:spiewnik/model/polish_plural.dart';
+import 'package:spiewnik/view/playlist_detail_view.dart';
+import 'package:spiewnik/viewmodel/playlist_viewmodel.dart';
 import 'package:spiewnik/view/widgets/category_filter_sheet.dart';
 import 'package:spiewnik/view/widgets/empty_state.dart';
 import 'package:spiewnik/view/widgets/section_header.dart';
@@ -15,9 +17,13 @@ import 'package:spiewnik/model/song_model.dart';
 class SongListView extends StatefulWidget {
   final SongViewModel viewModel;
 
+  /// For „Dodaj do listy” (Add to list) in an opened song.
+  final PlaylistViewModel? playlistViewModel;
+
   const SongListView({
     super.key,
     required this.viewModel,
+    this.playlistViewModel,
   });
 
   @override
@@ -67,6 +73,9 @@ class SongListViewState extends State<SongListView> {
   }
 
   String _hint(Set<int> filter) {
+    if (widget.viewModel.isSelecting) {
+      return 'Szukaj — zaznaczenie zostaje';
+    }
     if (filter.isEmpty) {
       return 'Szukaj';
     }
@@ -78,29 +87,36 @@ class SongListViewState extends State<SongListView> {
   Widget build(BuildContext context) {
     return ValueListenableBuilder<Set<int>>(
       valueListenable: widget.viewModel.subcategoryFilterNotifier,
-      builder: (context, filter, _) => Column(
-        children: [
-          Padding(
-            // The search field is always visible (docs/DESIGN-SYSTEM.md, section 5).
-            padding: const EdgeInsets.fromLTRB(16.0, 12.0, 8.0, 8.0),
-            child: Row(
-              children: [
-                Expanded(child: _searchField(context, filter)),
-                if (widget.viewModel.categories.categories.isNotEmpty) ...[
-                  const SizedBox(width: 4.0),
-                  _FilterButton(selectedCount: filter.length, onPressed: _openFilter),
+      builder: (context, filter, _) => ValueListenableBuilder<Set<int>?>(
+        // Only for the hint of the search field.
+        valueListenable: widget.viewModel.selectionNotifier,
+        builder: (context, _, __) => Column(
+          children: [
+            Padding(
+              // The search field is always visible (docs/DESIGN-SYSTEM.md, section 5).
+              padding: const EdgeInsets.fromLTRB(16.0, 12.0, 8.0, 8.0),
+              child: Row(
+                children: [
+                  Expanded(child: _searchField(context, filter)),
+                  if (widget.viewModel.categories.categories.isNotEmpty) ...[
+                    const SizedBox(width: 4.0),
+                    _FilterButton(selectedCount: filter.length, onPressed: _openFilter),
+                  ],
                 ],
-              ],
+              ),
             ),
-          ),
-          if (filter.isNotEmpty) _activeFilterChips(filter),
-          Expanded(
-            child: ValueListenableBuilder<List<Song>>(
-              valueListenable: widget.viewModel.filteredSongsNotifier,
-              builder: (context, songs, _) => songs.isEmpty ? _empty(filter) : _list(songs, filter),
+            if (filter.isNotEmpty) _activeFilterChips(filter),
+            Expanded(
+              child: ValueListenableBuilder<List<Song>>(
+                valueListenable: widget.viewModel.filteredSongsNotifier,
+                builder: (context, songs, _) => ValueListenableBuilder<Set<int>?>(
+                  valueListenable: widget.viewModel.selectionNotifier,
+                  builder: (context, selection, _) => songs.isEmpty ? _empty(filter) : _list(songs, filter, selection),
+                ),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -184,7 +200,7 @@ class SongListViewState extends State<SongListView> {
     );
   }
 
-  Widget _list(List<Song> songs, Set<int> filter) {
+  Widget _list(List<Song> songs, Set<int> filter, Set<int>? selection) {
     // With a filter: a header per selected subcategory, then its songs. A song in two of them shows twice.
     final List<Object> rows = filter.isEmpty
         ? songs
@@ -216,14 +232,14 @@ class SongListViewState extends State<SongListView> {
             number: song.number,
             isFavorite: song.favorite,
             highlights: widget.viewModel.titleMatches(song),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => SongDetailView(song: song, viewModel: widget.viewModel),
-                ),
-              );
-            },
+            selectable: selection != null,
+            isChecked: selection?.contains(song.number) ?? false,
+            onLongPress: () => selection == null
+                ? widget.viewModel.startSelection(song.number)
+                : widget.viewModel.toggleSelected(song.number),
+            onTap: selection != null
+                ? () => widget.viewModel.toggleSelected(song.number)
+                : () => openSong(context, song, widget.viewModel, widget.playlistViewModel),
           );
         },
       ),
@@ -296,4 +312,21 @@ class _FilterButton extends StatelessWidget {
       ),
     );
   }
+}
+
+/// Opens [song] from a list of the songbook, with „Dodaj do listy” when there is a [playlistViewModel].
+void openSong(BuildContext context, Song song, SongViewModel viewModel, PlaylistViewModel? playlistViewModel) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => SongDetailView(
+        song: song,
+        viewModel: viewModel,
+        playlistViewModel: playlistViewModel,
+        onOpenPlaylist: playlistViewModel == null
+            ? null
+            : (context, id) => openPlaylist(context, id: id, playlists: playlistViewModel, songs: viewModel),
+      ),
+    ),
+  );
 }

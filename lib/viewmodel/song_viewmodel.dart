@@ -20,6 +20,10 @@ class SongViewModel {
   /// session only, across tabs, until the user clears it.
   final ValueNotifier<Set<int>> subcategoryFilterNotifier = ValueNotifier(const {});
 
+  /// Numbers of the songs selected for adding to a list, or null outside the selection mode. Shared by the
+  /// songbook and favorites, and kept across searches and filters.
+  final ValueNotifier<Set<int>?> selectionNotifier = ValueNotifier(null);
+
   SongViewModel(this.repository, {this.categories = SongCategories.empty}) {
     _loadAllSongs();
     _loadFavoriteSongs();
@@ -69,6 +73,28 @@ class SongViewModel {
                 if (byNumber[number] case final song?) song,
             ]),
     ];
+  }
+
+  bool get isSelecting => selectionNotifier.value != null;
+
+  /// Enters the selection mode with [number] selected.
+  void startSelection(int number) => selectionNotifier.value = {number};
+
+  void toggleSelected(int number) {
+    final selected = {...?selectionNotifier.value};
+    selected.contains(number) ? selected.remove(number) : selected.add(number);
+    selectionNotifier.value = selected;
+  }
+
+  /// Unselects everything, staying in the selection mode.
+  void clearSelection() => selectionNotifier.value = {};
+
+  void endSelection() => selectionNotifier.value = null;
+
+  /// The selected songs, by number.
+  List<Song> get selectedSongs {
+    final selected = selectionNotifier.value ?? const {};
+    return allSongsNotifier.value.where((song) => selected.contains(song.number)).toList();
   }
 
   void _loadAllSongs() {

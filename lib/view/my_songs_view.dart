@@ -9,7 +9,10 @@ import 'package:spiewnik/viewmodel/my_song_viewmodel.dart';
 class MySongsView extends StatelessWidget {
   final MySongViewModel viewModel;
 
-  const MySongsView({super.key, required this.viewModel});
+  /// Passed on to the song view, see [MySongDetailView.onAddToPlaylist].
+  final void Function(BuildContext context, MySong song)? onAddToPlaylist;
+
+  const MySongsView({super.key, required this.viewModel, this.onAddToPlaylist});
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +54,11 @@ class MySongsView extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => MySongDetailView(song: song, viewModel: viewModel),
+                            builder: (context) => MySongDetailView(
+                              song: song,
+                              viewModel: viewModel,
+                              onAddToPlaylist: onAddToPlaylist,
+                            ),
                           ),
                         );
                       },

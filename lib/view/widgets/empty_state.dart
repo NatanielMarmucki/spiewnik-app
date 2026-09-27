@@ -19,6 +19,9 @@ class EmptyState extends StatelessWidget {
   final String? secondaryActionLabel;
   final VoidCallback? onSecondaryAction;
 
+  /// A quiet hint below the ways out, in tertiary text.
+  final String? footnote;
+
   const EmptyState({
     super.key,
     required this.icon,
@@ -28,6 +31,7 @@ class EmptyState extends StatelessWidget {
     this.onAction,
     this.secondaryActionLabel,
     this.onSecondaryAction,
+    this.footnote,
   });
 
   static const double iconSize = 26.0;
@@ -78,6 +82,14 @@ class EmptyState extends StatelessWidget {
             if (secondaryActionLabel != null && onSecondaryAction != null) ...[
               const SizedBox(height: 12.0),
               OutlinedPillButton(label: secondaryActionLabel!, onPressed: onSecondaryAction),
+            ],
+            if (footnote != null) ...[
+              const SizedBox(height: 16.0),
+              Text(
+                footnote!,
+                textAlign: TextAlign.center,
+                style: TextStyle(fontFamily: AppFonts.ui, fontSize: 13.0, height: 1.5, color: appColors.textTertiary),
+              ),
             ],
           ],
         ),

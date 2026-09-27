@@ -251,23 +251,13 @@ class _CategoryRow extends StatelessWidget {
                     ),
                   ),
                 ),
-                // The name takes what it needs, the dots the rest. Flexible would split the space in half.
                 Expanded(
-                  child: LayoutBuilder(
-                    builder: (context, constraints) => Row(
-                      children: [
-                        ConstrainedBox(
-                          constraints: BoxConstraints(maxWidth: constraints.maxWidth * 0.8),
-                          child: Text(category.name, style: nameStyle),
-                        ),
-                        const Expanded(
-                          child: Padding(padding: EdgeInsets.symmetric(horizontal: 12.0), child: LeaderDots()),
-                        ),
-                      ],
-                    ),
+                  child: LeaderRow(
+                    title: Text(category.name, style: nameStyle),
+                    trailing: '$songCount',
+                    trailingStyle: textTheme.titleSmall,
                   ),
                 ),
-                Text('$songCount', style: textTheme.titleSmall),
                 const SizedBox(width: 8.0),
                 Icon(expanded ? Icons.expand_less : Icons.expand_more, size: 18.0, color: appColors.textSecondary),
               ],

@@ -29,7 +29,7 @@ class SongOptionsSheet extends StatelessWidget {
             // one run with sharing.
             if (options[i].destructive && (i == 0 || !options[i - 1].destructive))
               Divider(color: appColors.line, height: 1.0),
-            _Option(option: options[i]),
+            SongOptionTile(option: options[i]),
           ],
           const SizedBox(height: 8.0),
         ],
@@ -44,6 +44,10 @@ class SongOption {
   final String label;
   final String? value;
 
+  /// A line below the label, e.g. the numbers that „Kopiuj numery” (Copy numbers) will copy.
+  final String? subtitle;
+  final TextStyle? subtitleStyle;
+
   /// Irreversible action: the destructive color and a hairline setting it off from the rest.
   final bool destructive;
 
@@ -53,15 +57,18 @@ class SongOption {
     required this.icon,
     required this.label,
     this.value,
+    this.subtitle,
+    this.subtitleStyle,
     this.destructive = false,
     required this.onTap,
   });
 }
 
-class _Option extends StatelessWidget {
+/// One item of an options sheet.
+class SongOptionTile extends StatelessWidget {
   final SongOption option;
 
-  const _Option({required this.option});
+  const SongOptionTile({super.key, required this.option});
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +78,8 @@ class _Option extends StatelessWidget {
 
     return Semantics(
       button: true,
-      label: option.value == null ? option.label : '${option.label}, ${option.value}',
+      label: [option.label, if (option.value != null) option.value!, if (option.subtitle != null) option.subtitle!]
+          .join(', '),
       onTap: option.onTap,
       container: true,
       excludeSemantics: true,
@@ -85,7 +93,23 @@ class _Option extends StatelessWidget {
               children: [
                 Icon(option.icon, size: 17.0, color: color ?? appColors.textSecondary),
                 const SizedBox(width: 16.0),
-                Expanded(child: Text(option.label, style: textTheme.bodyMedium?.copyWith(color: color))),
+                Expanded(
+                  child: option.subtitle == null
+                      ? Text(option.label, style: textTheme.bodyMedium?.copyWith(color: color))
+                      : Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(option.label, style: textTheme.bodyMedium?.copyWith(color: color)),
+                            Text(
+                              option.subtitle!,
+                              style: option.subtitleStyle ??
+                                  textTheme.bodySmall?.copyWith(color: appColors.textTertiary),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
+                        ),
+                ),
                 if (option.value != null)
                   Text(option.value!, style: textTheme.bodyMedium?.copyWith(color: appColors.textSecondary)),
               ],
