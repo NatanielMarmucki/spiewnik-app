@@ -16,6 +16,7 @@ import 'package:spiewnik/view/playlist_form_dialog.dart';
 import 'package:spiewnik/view/playlist_song_picker_view.dart';
 import 'package:spiewnik/view/song_detail_view.dart';
 import 'package:spiewnik/view/widgets/empty_state.dart';
+import 'package:spiewnik/view/widgets/outlined_pill_button.dart';
 import 'package:spiewnik/view/widgets/playlist_icon.dart';
 import 'package:spiewnik/view/widgets/playlist_row.dart';
 import 'package:spiewnik/view/widgets/section_header.dart';
@@ -309,8 +310,8 @@ class _PlaylistDetailViewState extends State<PlaylistDetailView> {
                         icon: Icons.queue_music,
                         title: 'Lista jest pusta',
                         message: 'Wybierz pieśni ze śpiewnika albo swoje. Kolejność zmienisz potem, przeciągając je.',
-                        actionLabel: 'Dodaj pieśni',
-                        onAction: _addSongs,
+                        secondaryActionLabel: '+ Dodaj pieśni',
+                        onSecondaryAction: _addSongs,
                       ),
                     ),
                   ],
@@ -319,7 +320,6 @@ class _PlaylistDetailViewState extends State<PlaylistDetailView> {
                   valueListenable: _viewModel.reorderHintSeenNotifier,
                   builder: (context, hintSeen, _) => ReorderableListView.builder(
                     header: _Header(details: details, hint: !hintSeen && details.entries.length > 1),
-                    footer: _AddSongsRow(onTap: _addSongs),
                     buildDefaultDragHandles: false,
                     itemCount: details.entries.length,
                     onReorderStart: (_) => HapticFeedback.mediumImpact(),
@@ -338,18 +338,27 @@ class _PlaylistDetailViewState extends State<PlaylistDetailView> {
                     ),
                   ),
                 ),
+          // Two quiet buttons instead of a filled one: the list itself is the content here.
           bottomNavigationBar: details.entries.isEmpty
               ? null
               : SafeArea(
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 12.0),
-                    child: ConstrainedBox(
-                      constraints: const BoxConstraints(minHeight: 48.0),
-                      child: ElevatedButton.icon(
-                        onPressed: () => _openSong(details, 0),
-                        icon: const Icon(Icons.play_arrow, size: 18.0),
-                        label: const Text('Śpiewaj po kolei'),
-                      ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: OutlinedPillButton(label: 'Dodaj pieśni', icon: Icons.add, onPressed: _addSongs),
+                        ),
+                        const SizedBox(width: 12.0),
+                        Expanded(
+                          child: OutlinedPillButton(
+                            label: 'Śpiewaj po kolei',
+                            icon: Icons.play_arrow,
+                            accent: true,
+                            onPressed: () => _openSong(details, 0),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -490,43 +499,6 @@ class _EntryRow extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 4.0),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-/// „+ Dodaj pieśni” below the last song, where the next one would go.
-class _AddSongsRow extends StatelessWidget {
-  final VoidCallback onTap;
-
-  const _AddSongsRow({required this.onTap});
-
-  @override
-  Widget build(BuildContext context) {
-    final accent = context.appColors.accent;
-    return Semantics(
-      button: true,
-      label: 'Dodaj pieśni',
-      onTap: onTap,
-      container: true,
-      excludeSemantics: true,
-      child: InkWell(
-        onTap: onTap,
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(minHeight: 52.0),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-            child: Row(
-              children: [
-                Icon(Icons.add, size: 18.0, color: accent),
-                const SizedBox(width: 10.0),
-                Expanded(
-                  child: Text('Dodaj pieśni', style: Theme.of(context).textTheme.labelLarge?.copyWith(color: accent)),
-                ),
               ],
             ),
           ),

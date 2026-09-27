@@ -148,7 +148,7 @@ void main() {
       await pumpScreen(tester, (context) => PlaylistDetailView(playlistId: list.id, viewModel: playlists, songs: songs));
       expect(find.text('Lista jest pusta'), findsOneWidget);
 
-      await tester.tap(find.widgetWithText(ElevatedButton, 'Dodaj pieśni'));
+      await tester.tap(find.text('+ Dodaj pieśni'));
       await tester.pumpAndSettle();
       expect(find.text('Wieczorna'), findsOneWidget, reason: 'user songs can be picked too');
       await tester.enterText(find.byType(TextField), '12');
@@ -160,7 +160,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(titles(list), ['Pieśń 12']);
-      expect(find.text('Dodaj pieśni'), findsOneWidget, reason: 'the row below the last song');
+      expect(find.text('Dodaj pieśni'), findsOneWidget, reason: 'the button next to „Śpiewaj po kolei”');
     });
 
     testWidgets('songs already on the list are checked and cannot be picked again', (tester) async {
