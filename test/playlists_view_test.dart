@@ -278,6 +278,7 @@ void main() {
       expect(find.text('NABOŻEŃSTWO NIEDZIELNE'), findsOneWidget);
       expect(find.bySemanticsLabel('Następna pieśń, 2 z 3'), findsOneWidget);
       expect(find.bySemanticsLabel('Poprzednia pieśń'), findsOneWidget);
+      expect(find.bySemanticsLabel('Przejdź do pieśni'), findsNothing, reason: 'no search inside a list');
 
       await tester.tap(find.bySemanticsLabel('Następna pieśń, 2 z 3'));
       await tester.pumpAndSettle();
