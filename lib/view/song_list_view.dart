@@ -6,6 +6,7 @@ import 'package:spiewnik/view/playlist_detail_view.dart';
 import 'package:spiewnik/viewmodel/playlist_viewmodel.dart';
 import 'package:spiewnik/view/widgets/category_filter_sheet.dart';
 import 'package:spiewnik/view/widgets/empty_state.dart';
+import 'package:spiewnik/view/widgets/search_limit_note.dart';
 import 'package:spiewnik/view/widgets/section_header.dart';
 import 'package:spiewnik/view/widgets/song_list_tile.dart';
 import 'package:spiewnik/view/widgets/song_scroll_bar.dart';
@@ -208,6 +209,7 @@ class SongListViewState extends State<SongListView> {
             for (final section in widget.viewModel.sections(songs))
               if (section.songs.isNotEmpty) ...[section, ...section.songs],
           ];
+    final cut = widget.viewModel.matchCount > songs.length;
     // itemExtent null: the row grows with the system font scaling.
     return SongScrollBar(
       controller: _scrollController,
@@ -217,8 +219,11 @@ class SongListViewState extends State<SongListView> {
       labelForIndex: (index) => index < songs.length ? '${songs[index].number}' : null,
       child: ListView.builder(
         controller: _scrollController,
-        itemCount: rows.length,
+        itemCount: rows.length + (cut ? 1 : 0),
         itemBuilder: (context, index) {
+          if (index == rows.length) {
+            return SearchLimitNote(shown: songs.length, total: widget.viewModel.matchCount);
+          }
           final row = rows[index];
           if (row is SongSection) {
             return SectionHeader(

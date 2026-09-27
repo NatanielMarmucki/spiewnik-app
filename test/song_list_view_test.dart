@@ -123,4 +123,16 @@ void main() {
       reason: 'przy wynikach wyszukiwania uchwyt nic nie wnosi',
     );
   });
+
+  testWidgets('a search matching more than 100 songs shows the best 100 and says how many matched', (tester) async {
+    repository = FakeSongRepository([
+      for (var n = 1; n <= 150; n++) Song(number: n, title: 'Chwała Panu $n', content: 'treść', favorite: false),
+    ]);
+    await pumpList(tester);
+
+    await search(tester, 'chwała');
+    await tester.scrollUntilVisible(find.textContaining('Pokazano 100'), 500.0, scrollable: find.byType(Scrollable).last);
+
+    expect(find.text('Pokazano 100 najlepiej pasujących z 150. Dopisz kolejne słowo, żeby zawęzić wyniki.'), findsOneWidget);
+  });
 }
