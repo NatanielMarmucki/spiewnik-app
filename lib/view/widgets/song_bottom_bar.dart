@@ -21,6 +21,9 @@ class SongBottomBar extends StatelessWidget {
   final VoidCallback? onNext;
   final VoidCallback onGoToNumber;
 
+  /// In a song list: the numbers are positions on the list, shown as „2/7”, and this is its length.
+  final int? total;
+
   const SongBottomBar({
     super.key,
     required this.previousNumber,
@@ -28,6 +31,7 @@ class SongBottomBar extends StatelessWidget {
     required this.onPrevious,
     required this.onNext,
     required this.onGoToNumber,
+    this.total,
   });
 
   static const double minHeight = 48.0;
@@ -52,6 +56,7 @@ class SongBottomBar extends StatelessWidget {
                 icon: Icons.chevron_left,
                 label: 'Poprzednia pieśń',
                 number: previousNumber,
+                total: total,
                 onTap: onPrevious,
               ),
               Expanded(child: _GoToNumber(onTap: onGoToNumber)),
@@ -59,6 +64,7 @@ class SongBottomBar extends StatelessWidget {
                 icon: Icons.chevron_right,
                 label: 'Następna pieśń',
                 number: nextNumber,
+                total: total,
                 onTap: onNext,
                 numberFirst: false,
               ),
@@ -74,6 +80,7 @@ class _Arrow extends StatelessWidget {
   final IconData icon;
   final String label;
   final int? number;
+  final int? total;
   final VoidCallback? onTap;
   final bool numberFirst;
 
@@ -81,6 +88,7 @@ class _Arrow extends StatelessWidget {
     required this.icon,
     required this.label,
     required this.number,
+    this.total,
     required this.onTap,
     this.numberFirst = true,
   });
@@ -93,7 +101,7 @@ class _Arrow extends StatelessWidget {
     // which gave 1.24:1. That it is inactive shows from the missing number next to it.
     final color = enabled ? appColors.textSecondary : appColors.textTertiary;
     final numberText = Text(
-      number == null ? '' : '$number',
+      number == null ? '' : (total == null ? '$number' : '$number/$total'),
       style: Theme.of(context).textTheme.titleSmall?.copyWith(color: color),
     );
     final arrow = Icon(icon, size: SongBottomBar.iconSize, color: color);
@@ -101,7 +109,7 @@ class _Arrow extends StatelessWidget {
     return Semantics(
       button: true,
       enabled: enabled,
-      label: number == null ? label : '$label, numer $number',
+      label: number == null ? label : (total == null ? '$label, numer $number' : '$label, $number z $total'),
       onTap: enabled ? onTap : null,
       container: true,
       excludeSemantics: true,

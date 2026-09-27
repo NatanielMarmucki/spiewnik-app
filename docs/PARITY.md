@@ -20,7 +20,7 @@ Oznaczenia w kolumnie „Rozbieżność”:
 
 | Funkcja | iOS | Android | Rozbieżność |
 |---|---|---|---|
-| **Nawigacja główna** | `TabView`, 3 zakładki: „Śpiewnik”, „Ulubione”, „Moje pieśni” | Od 12.0.0 te same 3 zakładki we własnym `AppNavigationBar` (ikona 17 dp, kreska 2 dp w akcencie, wysokość minimalna); `ConvexAppBar` usunięty | **—** co do zakładek, **R** wizualnie |
+| **Nawigacja główna** | `TabView`, 3 zakładki: „Śpiewnik”, „Ulubione”, „Moje pieśni” | Od 12.0.0 te same 3 zakładki we własnym `AppNavigationBar`; trzecia nazywa się „Moje”, bo poza własnymi pieśniami trzyma listy pieśni (ikona 17 dp, kreska 2 dp w akcencie, wysokość minimalna); `ConvexAppBar` usunięty | **—** co do zakładek, **R** wizualnie |
 | Układ na tablet | Osobne widoki `*SplitView` (`NavigationSplitView`: lista + szczegóły) dla `.pad` | Bez zmian: ten sam układ na każdym ekranie, treść ograniczona do 34 × S szerokości, więc na tablecie nie rozlewa się na całą szerokość | **R** — **zaległość**, patrz „Różnice, które zostają na stałe” |
 | Wejście do ustawień | Zębatka tylko w zakładce „Śpiewnik”; ustawienia otwierają się jako arkusz (`.sheet`) | Zębatka w pasku górnym, dostępna ze wszystkich trzech zakładek; `Navigator.push` | **R** — świadoma decyzja: ustawienia są ekranem, nie arkuszem, i nie chowają się pod jedną zakładką |
 | Tytuł paska na liście | „Śpiewnik” / „Ulubione” / „Moje pieśni” zależnie od zakładki | Zawsze „Śpiewnik” | **R** — świadoma decyzja: od 12.0.0 nazwę zakładki niesie podpis w dolnej nawigacji, więc pasek nie powtarza jej drugi raz |

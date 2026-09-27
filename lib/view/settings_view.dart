@@ -5,6 +5,7 @@ import 'package:spiewnik/model/font_size_model.dart';
 import 'package:spiewnik/theme/app_colors.dart';
 import 'package:spiewnik/view/data_migration_notice.dart';
 import 'package:spiewnik/view/link_failure_dialog.dart';
+import 'package:spiewnik/view/widgets/outlined_pill_button.dart';
 import 'package:spiewnik/view/widgets/settings_section.dart';
 import 'package:spiewnik/view/widgets/song_content.dart';
 import 'package:spiewnik/viewmodel/settings_viewmodel.dart';
@@ -112,6 +113,17 @@ class _ReadingSection extends StatelessWidget {
           divisions: ((FontSizeModel.maxLineHeight - FontSizeModel.minLineHeight) / 0.05).round(),
           onChanged: fontSizeModel.setLineHeight,
         ),
+        // Right below the sliders it resets; centered, as a button, not a link at the edge.
+        Padding(
+          padding: const EdgeInsets.fromLTRB(22.0, 4.0, 22.0, 12.0),
+          child: Center(
+            child: OutlinedPillButton(
+              // The reset applies only to size and line height: theme and keep-screen-on stay.
+              label: 'Przywróć domyślny rozmiar i interlinię',
+              onPressed: fontSizeModel.resetToDefaults,
+            ),
+          ),
+        ),
         // Sample below both sliders: shows size and line height at once.
         Padding(
           padding: const EdgeInsets.fromLTRB(22.0, 4.0, 22.0, 16.0),
@@ -128,18 +140,6 @@ class _ReadingSection extends StatelessWidget {
                 padding: EdgeInsets.zero,
                 scrollable: false,
               ),
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(22.0, 8.0, 22.0, 4.0),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: TextButton(
-              // The reset applies only to size and line height: theme and keep-screen-on stay.
-              onPressed: fontSizeModel.resetToDefaults,
-              style: TextButton.styleFrom(foregroundColor: context.appColors.accent),
-              child: const Text('Przywróć domyślny rozmiar i interlinię'),
             ),
           ),
         ),

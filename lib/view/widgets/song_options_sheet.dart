@@ -23,23 +23,13 @@ class SongOptionsSheet extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12.0),
-            child: Container(
-              width: handleWidth,
-              height: handleHeight,
-              decoration: BoxDecoration(
-                color: appColors.line,
-                borderRadius: BorderRadius.circular(handleHeight),
-              ),
-            ),
-          ),
+          const SheetHandle(),
           for (var i = 0; i < options.length; i++) ...[
             // A hairline sets the destructive section off from the rest, so deleting does not sit in
             // one run with sharing.
             if (options[i].destructive && (i == 0 || !options[i - 1].destructive))
               Divider(color: appColors.line, height: 1.0),
-            _Option(option: options[i]),
+            SongOptionTile(option: options[i]),
           ],
           const SizedBox(height: 8.0),
         ],
@@ -54,6 +44,10 @@ class SongOption {
   final String label;
   final String? value;
 
+  /// A line below the label, e.g. the numbers that „Kopiuj numery” (Copy numbers) will copy.
+  final String? subtitle;
+  final TextStyle? subtitleStyle;
+
   /// Irreversible action: the destructive color and a hairline setting it off from the rest.
   final bool destructive;
 
@@ -63,15 +57,18 @@ class SongOption {
     required this.icon,
     required this.label,
     this.value,
+    this.subtitle,
+    this.subtitleStyle,
     this.destructive = false,
     required this.onTap,
   });
 }
 
-class _Option extends StatelessWidget {
+/// One item of an options sheet.
+class SongOptionTile extends StatelessWidget {
   final SongOption option;
 
-  const _Option({required this.option});
+  const SongOptionTile({super.key, required this.option});
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +78,8 @@ class _Option extends StatelessWidget {
 
     return Semantics(
       button: true,
-      label: option.value == null ? option.label : '${option.label}, ${option.value}',
+      label: [option.label, if (option.value != null) option.value!, if (option.subtitle != null) option.subtitle!]
+          .join(', '),
       onTap: option.onTap,
       container: true,
       excludeSemantics: true,
@@ -95,13 +93,46 @@ class _Option extends StatelessWidget {
               children: [
                 Icon(option.icon, size: 17.0, color: color ?? appColors.textSecondary),
                 const SizedBox(width: 16.0),
-                Expanded(child: Text(option.label, style: textTheme.bodyMedium?.copyWith(color: color))),
+                Expanded(
+                  child: option.subtitle == null
+                      ? Text(option.label, style: textTheme.bodyMedium?.copyWith(color: color))
+                      : Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(option.label, style: textTheme.bodyMedium?.copyWith(color: color)),
+                            Text(
+                              option.subtitle!,
+                              style: option.subtitleStyle ??
+                                  textTheme.bodySmall?.copyWith(color: appColors.textTertiary),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
+                        ),
+                ),
                 if (option.value != null)
                   Text(option.value!, style: textTheme.bodyMedium?.copyWith(color: appColors.textSecondary)),
               ],
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+/// The 34 × 3 dp handle at the top of a sheet.
+class SheetHandle extends StatelessWidget {
+  const SheetHandle({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12.0),
+      child: Container(
+        width: SongOptionsSheet.handleWidth,
+        height: SongOptionsSheet.handleHeight,
+        decoration: BoxDecoration(color: context.appColors.line, borderRadius: BorderRadius.circular(3.0)),
       ),
     );
   }

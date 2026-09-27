@@ -22,7 +22,7 @@ class AppNavigationBar extends StatelessWidget {
   static const List<({IconData icon, String label})> destinations = [
     (icon: Icons.menu_book, label: 'Śpiewnik'),
     (icon: Icons.favorite, label: 'Ulubione'),
-    (icon: Icons.edit_note, label: 'Moje pieśni'),
+    (icon: Icons.edit_note, label: 'Moje'),
   ];
 
   @override

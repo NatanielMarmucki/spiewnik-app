@@ -12,7 +12,10 @@ class MySongDetailView extends StatefulWidget {
   final MySong song;
   final MySongViewModel viewModel;
 
-  const MySongDetailView({super.key, required this.song, required this.viewModel});
+  /// „Dodaj do listy” (Add to list) in the options; without it the option is not there.
+  final void Function(BuildContext context, MySong song)? onAddToPlaylist;
+
+  const MySongDetailView({super.key, required this.song, required this.viewModel, this.onAddToPlaylist});
 
   @override
   MySongDetailViewState createState() => MySongDetailViewState();
@@ -82,6 +85,15 @@ class MySongDetailViewState extends State<MySongDetailView> {
               _share();
             },
           ),
+          if (widget.onAddToPlaylist != null)
+            SongOption(
+              icon: Icons.playlist_add,
+              label: 'Dodaj do listy',
+              onTap: () {
+                Navigator.pop(sheetContext);
+                widget.onAddToPlaylist!(context, widget.song);
+              },
+            ),
           SongOption(
             icon: Icons.edit,
             label: 'Edytuj pieśń',

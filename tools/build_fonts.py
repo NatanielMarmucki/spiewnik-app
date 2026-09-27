@@ -20,6 +20,8 @@ from fontTools.varLib import instancer
 SOURCES = {
     "Newsreader.ttf": "https://raw.githubusercontent.com/google/fonts/main/ofl/newsreader/Newsreader%5Bopsz,wght%5D.ttf",
     "SchibstedGrotesk.ttf": "https://raw.githubusercontent.com/google/fonts/main/ofl/schibstedgrotesk/SchibstedGrotesk%5Bwght%5D.ttf",
+    # Static, not variable: numbers of songs in song lists.
+    "IBMPlexMono-Regular.ttf": "https://raw.githubusercontent.com/google/fonts/main/ofl/ibmplexmono/IBMPlexMono-Regular.ttf",
 }
 
 # The latin and latin-ext subset ranges from Google Fonts.
@@ -40,6 +42,7 @@ JOBS = [
     ("SchibstedGrotesk.ttf", "SchibstedGrotesk", {"wght": 400}, "Regular"),
     ("SchibstedGrotesk.ttf", "SchibstedGrotesk", {"wght": 500}, "Medium"),
     ("SchibstedGrotesk.ttf", "SchibstedGrotesk", {"wght": 600}, "SemiBold"),
+    ("IBMPlexMono-Regular.ttf", "IBMPlexMono", None, "Regular"),
 ]
 
 # Characters without which the song texts and the UI would look wrong.
@@ -73,7 +76,9 @@ def main():
     codes = set(unicodes(LATIN)) | set(unicodes(LATIN_EXT))
 
     for source, family, axes, style in JOBS:
-        font = instancer.instantiateVariableFont(TTFont(work / source), axes, inplace=False, updateFontNames=False)
+        font = TTFont(work / source)
+        if axes is not None:
+            font = instancer.instantiateVariableFont(font, axes, inplace=False, updateFontNames=False)
         options = Options()
         options.layout_features = ["*"]  # keeps tnum (tabular figures), among others
         options.name_IDs = ["*"]

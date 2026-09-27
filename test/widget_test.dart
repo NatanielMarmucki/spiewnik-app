@@ -41,7 +41,7 @@ void main() {
     expect(find.byType(HomeScreen), findsOneWidget);
     expect(find.descendant(of: find.byType(AppBar), matching: find.text('Śpiewnik')), findsOneWidget);
     expect(find.text('Ulubione'), findsOneWidget);
-    expect(find.text('Moje pieśni'), findsOneWidget);
+    expect(find.text('Moje'), findsOneWidget);
     expect(tester.widget<IndexedStack>(find.byType(IndexedStack)).index, 0);
   });
 }

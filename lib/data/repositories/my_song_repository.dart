@@ -1,4 +1,5 @@
 import 'package:spiewnik/model/my_song_model.dart';
+import 'package:spiewnik/model/playlist_model.dart';
 import 'package:spiewnik/model/polish_collation.dart';
 import 'package:spiewnik/objectbox.g.dart';
 
@@ -10,6 +11,7 @@ abstract class MySongRepository {
   /// Stores a new song or the changes of an existing one.
   void save(MySong song);
 
+  /// Deletes the song, also from every song list.
   void delete(int id);
 }
 
@@ -32,5 +34,15 @@ class ObjectBoxMySongRepository implements MySongRepository {
   void save(MySong song) => _store.box<MySong>().put(song);
 
   @override
-  void delete(int id) => _store.box<MySong>().remove(id);
+  void delete(int id) {
+    _store.runInTransaction(TxMode.write, () {
+      final query = _store.box<PlaylistItem>().query(PlaylistItem_.mySongId.equals(id)).build();
+      try {
+        query.remove();
+      } finally {
+        query.close();
+      }
+      _store.box<MySong>().remove(id);
+    });
+  }
 }

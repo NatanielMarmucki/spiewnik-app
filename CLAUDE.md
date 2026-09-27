@@ -15,6 +15,10 @@ UI po polsku; kod, komentarze, commity i opisy PR po angielsku.
 - `lib/migration/` — jednorazowe migracje ze starej aplikacji iOS: czytnik bazy Core Data i zapis do ObjectBoksa,
   osobno rozmiar czcionki przez kanał platformy z `ios/Runner/AppDelegate.swift`. **Migracja jest skończona i przetestowana
   end-to-end** — nie zmieniaj jej bez ponownego testu (procedura w `docs/DEVELOPMENT.md`).
+- `assets/data/kategorie.json` + `lib/model/song_categories.dart` — spis treści śpiewnika (4 kategorie, 24 podkategorie),
+  trzymany w pamięci, nie w bazie; filtr w `SongViewModel`.
+- Listy pieśni: encje `Playlist`/`PlaylistItem` (`lib/model/playlist_model.dart`), `PlaylistRepository`, `PlaylistViewModel`.
+  Pieśń ze zbioru wskazywana numerem, własna — id. `lib/export/` — PDF listy i format pliku `.spiewnik`.
 - `lib/viewmodel/` — view modele: zwykłe klasy z `ValueNotifier`, zależności przez konstruktor.
 - `lib/view/` — ekrany. `SongDetailView` to `PageView` po całym śpiewniku: zmiana pieśni przewraca stronę, nie otwiera
   nowego ekranu. `ScreenWakeLock` (`view/screen_wake_lock.dart`) trzyma ekran włączony, gdy pieśń jest otwarta.
@@ -48,7 +52,7 @@ UI po polsku; kod, komentarze, commity i opisy PR po angielsku.
 - `lib/objectbox.g.dart` — tylko przez `build_runner`.
 - `test/fixtures/*.sqlite*` — prawdziwe bazy z iOS, tylko do odczytu. Dane syntetyczne twórz na kopiach
   (`CoreDataFixtures.copyTo` + `changeCopy`) i oznaczaj komentarzem `SYNTHETIC DATA`. Puste `-wal` i `-shm` są celowe.
-- Klucze SharedPreferences (`fontSize`, `lineHeight`, `launch_count`, `last_run_app_version`, `songs_data_version`,
+- Klucze SharedPreferences (`mySongsShowLists`, `playlistReorderHintSeen`, `fontSize`, `lineHeight`, `launch_count`, `last_run_app_version`, `songs_data_version`,
   `coreDataMigration*`, `legacySettingsMigrationDone`, `postMigrationWelcomeShown`) — są na urządzeniach użytkowników.
 - `assets/songs_data.json` — generowany przez `tools/song_merge/`, nie edytować ręcznie.
 - `android/key.properties` i `android/upload_certificate.pem` — nie otwierać, nie cytować.

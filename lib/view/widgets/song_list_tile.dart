@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:spiewnik/theme/app_colors.dart';
+import 'package:spiewnik/view/widgets/app_checkbox.dart';
 
 /// List row from docs/DESIGN-SYSTEM.md, section 5. One variant for three lists:
 /// songs, favorites and user songs.
@@ -34,6 +35,11 @@ class SongListTile extends StatefulWidget {
   final List<String> highlights;
 
   final VoidCallback? onTap;
+  final VoidCallback? onLongPress;
+
+  /// In the selection mode: a checkbox at the left, [isChecked] rows on the surface with the number in the accent.
+  final bool selectable;
+  final bool isChecked;
 
   const SongListTile({
     super.key,
@@ -44,6 +50,9 @@ class SongListTile extends StatefulWidget {
     this.isSelected = false,
     this.highlights = const [],
     this.onTap,
+    this.onLongPress,
+    this.selectable = false,
+    this.isChecked = false,
   });
 
   /// Minimum row height.
@@ -70,16 +79,26 @@ class _SongListTileState extends State<SongListTile> {
     final theme = Theme.of(context);
     final appColors = context.appColors;
     final numberStyle = theme.textTheme.titleSmall?.copyWith(
-      color: widget.isSelected ? appColors.accent : appColors.textSecondary,
+      color: widget.isSelected || widget.isChecked ? appColors.accent : appColors.textSecondary,
+    );
+    final background = _pressed || widget.isChecked ? appColors.pressedSurface : theme.colorScheme.surface;
+    final line = _IndexLine(
+      title: widget.title,
+      highlights: widget.highlights,
+      isFavorite: widget.isFavorite,
+      trailingText: widget.badge ?? (widget.number == null ? null : '${widget.number}'),
+      trailingStyle: widget.badge != null ? theme.textTheme.labelMedium : numberStyle,
     );
 
     return Semantics(
       button: widget.onTap != null,
       selected: widget.isSelected,
+      checked: widget.selectable ? widget.isChecked : null,
       // One node per row: number, title and „ulubiona” (favorite) read together, instead of separate icons.
       container: true,
       excludeSemantics: true,
       onTap: widget.onTap,
+      onLongPress: widget.onLongPress,
       label: [
         if (widget.number != null) '${widget.number}',
         widget.title,
@@ -89,21 +108,29 @@ class _SongListTileState extends State<SongListTile> {
       child: GestureDetector(
         behavior: HitTestBehavior.opaque, // the whole row is the touch target
         onTap: widget.onTap,
+        onLongPress: widget.onLongPress == null
+            ? null
+            : () {
+                _setPressed(false);
+                widget.onLongPress!();
+              },
         onTapDown: (_) => _setPressed(true),
         onTapUp: (_) => _setPressed(false),
         onTapCancel: () => _setPressed(false),
         child: AnimatedContainer(
           duration: SongListTile.pressDuration,
-          decoration: BoxDecoration(color: _pressed ? appColors.pressedSurface : theme.colorScheme.surface),
+          decoration: BoxDecoration(color: background),
           constraints: const BoxConstraints(minHeight: SongListTile.minHeight),
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-          child: _IndexLine(
-            title: widget.title,
-            highlights: widget.highlights,
-            isFavorite: widget.isFavorite,
-            trailingText: widget.badge ?? (widget.number == null ? null : '${widget.number}'),
-            trailingStyle: widget.badge != null ? theme.textTheme.labelMedium : numberStyle,
-          ),
+          child: widget.selectable
+              ? Row(
+                  children: [
+                    AppCheckbox(value: widget.isChecked),
+                    const SizedBox(width: 14.0),
+                    Expanded(child: line),
+                  ],
+                )
+              : line,
         ),
       ),
     );
@@ -186,10 +213,7 @@ class _IndexLine extends StatelessWidget {
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: _gap),
-                    child: CustomPaint(
-                      painter: _LeaderDotsPainter(color: appColors.indexDots),
-                      size: const Size(double.infinity, 2.0),
-                    ),
+                    child: const LeaderDots(),
                   ),
                 ),
                 if (trailingText != null) Text(trailingText!, style: trailingStyle),
@@ -273,7 +297,56 @@ class _IndexLine extends StatelessWidget {
   }
 }
 
-/// Dotted leader line between the title and the number.
+/// Dotted leader line between a title and a number, as in a table of contents. Fills the width it gets.
+class LeaderDots extends StatelessWidget {
+  const LeaderDots({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomPaint(
+      painter: _LeaderDotsPainter(color: context.appColors.indexDots),
+      size: const Size(double.infinity, 2.0),
+    );
+  }
+}
+
+/// [title], a dotted leader line and [trailing], for rows whose title fits on one or two lines (a category,
+/// a song list). The trailing text is measured, and the title gets what is left after it and the shortest
+/// dots; song rows measure their lines instead, see [SongListTile].
+class LeaderRow extends StatelessWidget {
+  final Widget title;
+  final String trailing;
+  final TextStyle? trailingStyle;
+
+  const LeaderRow({super.key, required this.title, required this.trailing, this.trailingStyle});
+
+  @override
+  Widget build(BuildContext context) {
+    final style = DefaultTextStyle.of(context).style.merge(trailingStyle);
+    final trailingWidth = (TextPainter(
+      text: TextSpan(text: trailing, style: style),
+      textDirection: Directionality.of(context),
+      textScaler: MediaQuery.textScalerOf(context),
+    )..layout())
+        .width;
+    return LayoutBuilder(
+      builder: (context, constraints) => Row(
+        children: [
+          ConstrainedBox(
+            constraints: BoxConstraints(
+              maxWidth: math.max(0.0, constraints.maxWidth - trailingWidth - 2 * _IndexLine._gap - _IndexLine._minDots),
+            ),
+            child: title,
+          ),
+          const Expanded(
+              child: Padding(padding: EdgeInsets.symmetric(horizontal: _IndexLine._gap), child: LeaderDots())),
+          Text(trailing, style: trailingStyle),
+        ],
+      ),
+    );
+  }
+}
+
 class _LeaderDotsPainter extends CustomPainter {
   final Color color;
 

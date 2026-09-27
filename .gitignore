@@ -41,3 +41,7 @@ test/golden/failures/
 
 # Zrzuty ekranu do porównań, trzymane tylko lokalnie
 screenshots/
+
+# MemPalace per-project files (issue #185)
+mempalace.yaml
+entities.json
