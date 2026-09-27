@@ -1,5 +1,5 @@
 {
-  "dataVersion": 1,
+  "dataVersion": 2,
   "songs": [
     {
       "number": 1,
@@ -844,7 +844,7 @@
     {
       "number": 169,
       "title": "Trwa jeszcze łaska",
-      "content": "1. Trwa jeszcze łaska Boża, Trwa odpuszczenia czas, Gdyś zeszedł na bezdroża, [:Do Boga pójdźże wraz!:]\n\n2. Zbawiciel jeszcze czeka, Wyciąga jeszcze dłoń, Twe serce czemuż zwleka? [Czym prędzej pośpiesz Doń!:]\n\n3. Chcesz szczęście znaleźć z dala Od Jego domu bram? Ach, świat cię grzechem skala, [:A szczęścia nie ma tam.:]\n\n4. Ku Niemu, póki pora i czas miłości trwa, Pójdź prędko, duszo chora, [:On zdrowie tobie da!:]\n\n5. Swe serce złóż Mu w darze, I wśród żywota burz, Jak Duch ci Święty każe, [:Tak Zbawcy swemu służ!:]\n\n6. Pragnienia twe ukoi, Gdy Doń przybliżysz się, Da pokój duszy twojej, [:Bo szczęścia twego chce.:]"
+      "content": "1. Trwa jeszcze łaska Boża, Trwa odpuszczenia czas, Gdyś zeszedł na bezdroża, [:Do Boga pójdźże wraz!:]\n\n2. Zbawiciel jeszcze czeka, Wyciąga jeszcze dłoń, Twe serce czemuż zwleka? [:Czym prędzej pośpiesz Doń!:]\n\n3. Chcesz szczęście znaleźć z dala Od Jego domu bram? Ach, świat cię grzechem skala, [:A szczęścia nie ma tam.:]\n\n4. Ku Niemu, póki pora i czas miłości trwa, Pójdź prędko, duszo chora, [:On zdrowie tobie da!:]\n\n5. Swe serce złóż Mu w darze, I wśród żywota burz, Jak Duch ci Święty każe, [:Tak Zbawcy swemu służ!:]\n\n6. Pragnienia twe ukoi, Gdy Doń przybliżysz się, Da pokój duszy twojej, [:Bo szczęścia twego chce.:]"
     },
     {
       "number": 170,
@@ -984,7 +984,7 @@
     {
       "number": 197,
       "title": "Prócz liści nic",
-      "content": "1. Prócz liści nic! Ach, marny plon! Patrz, Zbawca roni łzy! Tak cię gorąco kochał On, Dla ciebie zniósł męczeński zgon. Cóż Mu przynosisz ty? [:Prócz liści nic!:]\n\n2. Prócz liści nic! A owoc gdzie, Coś w życiu przynieść miał? Cierpliwość Pańska kończy się, I wkrótce Bóg potępi cię, Gdy będziesz przed Nim stał, Nie mając nic. [:Prócz liści nic!:]\n\n3. Prócz liści nic! I wstyd, i strach! Tak szybko życie mknie. Zburzyłeś szczęścia swego gmach I będziesz wieczność spędzać w łzach. Gdzież korzyść? pytam się. [:Prócz liści nic!:]\n\n4. Prócz liści nic! W niewierze trwasz. Ach, uwierz, człeku zły! Gdy nie uwierzysz, dobrze zważ, Usłyszeć straszny wyrok masz. Idź precz ode Mnie ty! [:Prócz liści nic!]"
+      "content": "1. Prócz liści nic! Ach, marny plon! Patrz, Zbawca roni łzy! Tak cię gorąco kochał On, Dla ciebie zniósł męczeński zgon. Cóż Mu przynosisz ty? [:Prócz liści nic!:]\n\n2. Prócz liści nic! A owoc gdzie, Coś w życiu przynieść miał? Cierpliwość Pańska kończy się, I wkrótce Bóg potępi cię, Gdy będziesz przed Nim stał, Nie mając nic. [:Prócz liści nic!:]\n\n3. Prócz liści nic! I wstyd, i strach! Tak szybko życie mknie. Zburzyłeś szczęścia swego gmach I będziesz wieczność spędzać w łzach. Gdzież korzyść? pytam się. [:Prócz liści nic!:]\n\n4. Prócz liści nic! W niewierze trwasz. Ach, uwierz, człeku zły! Gdy nie uwierzysz, dobrze zważ, Usłyszeć straszny wyrok masz. Idź precz ode Mnie ty! [:Prócz liści nic!:]"
     },
     {
       "number": 198,
@@ -3459,7 +3459,7 @@
     {
       "number": 692,
       "title": "Po zwycięskim boju",
-      "content": "1. Po zwycięskim boju chwały Pan żywota w grobie legł; Lecz poranek błysnął biały, Anioł w bieli, jako śnieg, Głaz odwalił z grobu ścian. Z śmierci rąk się wyrwał Pan! [:O Pogromco piekieł bram, Witaj z grobu, witaj nam!:]\n\n2. Słońce jasne już dokoła Spędza ciemne śmierci mgły, Z grobu słychać głos anioła: Nie płacz, otrzyj gorzkie łzy! Nie masz w grobie nie masz Go! Któż tę radość pojmie, kto? [:Pieśni, płyń do gór, do niw! Wstał Zbawiciel! Jezus żyw!:]\n\n3. Gorzkim płaczem zapłakałem Nad żywotem pełnym mąk, Gdy na tronie tam widziałem Tajemnice Bożych ksiąg. Któż te dziwne tajnie zgadł? Milczy niebo, milczy świat. [Ach, czyż nikt nie znajdzie się Co by zdjął pieczęcie te!?:]\n\n4. Nie płacz, nie płacz! Powstał z grobu Pan, co wylał własną krew. Dzisiaj żyje Jezus z tobą! Przezwyciężył z Judy lew! On pieczęcie godzien zdjąć, Nowe życie w łono tchnąć; [:Powstań, powstań z więzów ran, Wszystko już wykonał Pan!:]\n\n5. Uwielbiony Królu chwały, Usłysz głosy rzewnych łkań! Oświeć groby, odwal skały, W sercach naszych zmartwychwstań! Tyś tajniki serca zgadł, Pokazałeś życia ślad, [:Moc na ziemi, w niebie masz, Więc zwycięstwo łaski dasz!:]"
+      "content": "1. Po zwycięskim boju chwały Pan żywota w grobie legł; Lecz poranek błysnął biały, Anioł w bieli, jako śnieg, Głaz odwalił z grobu ścian. Z śmierci rąk się wyrwał Pan! [:O Pogromco piekieł bram, Witaj z grobu, witaj nam!:]\n\n2. Słońce jasne już dokoła Spędza ciemne śmierci mgły, Z grobu słychać głos anioła: Nie płacz, otrzyj gorzkie łzy! Nie masz w grobie nie masz Go! Któż tę radość pojmie, kto? [:Pieśni, płyń do gór, do niw! Wstał Zbawiciel! Jezus żyw!:]\n\n3. Gorzkim płaczem zapłakałem Nad żywotem pełnym mąk, Gdy na tronie tam widziałem Tajemnice Bożych ksiąg. Któż te dziwne tajnie zgadł? Milczy niebo, milczy świat. [:Ach, czyż nikt nie znajdzie się Co by zdjął pieczęcie te!?:]\n\n4. Nie płacz, nie płacz! Powstał z grobu Pan, co wylał własną krew. Dzisiaj żyje Jezus z tobą! Przezwyciężył z Judy lew! On pieczęcie godzien zdjąć, Nowe życie w łono tchnąć; [:Powstań, powstań z więzów ran, Wszystko już wykonał Pan!:]\n\n5. Uwielbiony Królu chwały, Usłysz głosy rzewnych łkań! Oświeć groby, odwal skały, W sercach naszych zmartwychwstań! Tyś tajniki serca zgadł, Pokazałeś życia ślad, [:Moc na ziemi, w niebie masz, Więc zwycięstwo łaski dasz!:]"
     },
     {
       "number": 693,
@@ -3484,7 +3484,7 @@
     {
       "number": 697,
       "title": "Albowiem tak Bóg",
-      "content": "1. [:Albowiem tak Bóg świat umiłował:] Umiłował, umiłował, Umiłował tak Bóg świat.\n\n2. [:Ze dał nam Syna jedynego:] Dał Syna, dał Syna, Jednorodzonego dał.\n\n3. [Ażeby każdy, kto Weń wierzy:] Nie zginął, nie zginął, Ale żywot wieczny miał."
+      "content": "1. [:Albowiem tak Bóg świat umiłował:] Umiłował, umiłował, Umiłował tak Bóg świat.\n\n2. [:Ze dał nam Syna jedynego:] Dał Syna, dał Syna, Jednorodzonego dał.\n\n3. [:Ażeby każdy, kto Weń wierzy:] Nie zginął, nie zginął, Ale żywot wieczny miał."
     },
     {
       "number": 698,
@@ -4204,7 +4204,7 @@
     {
       "number": 841,
       "title": "Rannego słońca",
-      "content": "1. Rannego słońca pierwszy promyk lśni I mówi: „Bóg chce być światłością ci”. A w krzakach wdzięczną piosenkę śpiewa ptak: „Chwal, tak jak ja, [:Twojego Stwórcę rad.”:]\n\n2. Niebieski kwiatek tak poucza mię: Pamiętaj człecze, zawsze modlić się. A mała pszczółka brzęczy cicho mi: „Pilnie jak ja [:Dla Zbawcy pracuj ty!:]”\n\n3. A gdy wieczorem dzwoni stary dzwon, Jak gdyby wszystkim wkoło mówił on: „Upływa szybko czas, znów minął dzień, Nie zmarnuj go, [:Bo wieczność zbliża się!:]”\n\n4. Przypomnieć pragnie ci wieczorny cień: „Podziękuj Bogu za miniony dzień.:] A gwiazdy mówią ci, co w górze lśnią: „O, śpij bez trwóg, [:Nad tobą czuwa Bóg.:]”"
+      "content": "1. Rannego słońca pierwszy promyk lśni I mówi: „Bóg chce być światłością ci”. A w krzakach wdzięczną piosenkę śpiewa ptak: „Chwal, tak jak ja, [:Twojego Stwórcę rad.”:]\n\n2. Niebieski kwiatek tak poucza mię: Pamiętaj człecze, zawsze modlić się. A mała pszczółka brzęczy cicho mi: „Pilnie jak ja [:Dla Zbawcy pracuj ty!:]”\n\n3. A gdy wieczorem dzwoni stary dzwon, Jak gdyby wszystkim wkoło mówił on: „Upływa szybko czas, znów minął dzień, Nie zmarnuj go, [:Bo wieczność zbliża się!:]”\n\n4. Przypomnieć pragnie ci wieczorny cień: „Podziękuj Bogu za miniony dzień.” A gwiazdy mówią ci, co w górze lśnią: „O, śpij bez trwóg, [:Nad tobą czuwa Bóg.:]”"
     },
     {
       "number": 842,
@@ -5779,7 +5779,7 @@
     {
       "number": 1156,
       "title": "Już Cię żegnam",
-      "content": "1. Już cię żegnam, zły, przewrotny świecie. Straszny grzech twój wokół śmiercią tchnie. Twa wesołość szumna, powierzchowna, Nie jest w stanie zadowolić mnie. Czegoś więcej pragnę, szukam. W sercu mym tęsknoty łzy, Kto zrozumie mnie, kto sprawi ulgę? O, mój Panie Jezu, tylko Ty.\n\n2. Zostawiłem grzech swój całkowicie. Tyś go ze mnie zdjął w dobroci swej. Jestem wolny, odkąd moje życie, Panie, chcę poświęcić prawdzie Twej, Wiernie krocząc Twymi ślady Złośnikowi odpór dać. A gdy życie moje się zakończy, Dasz mi wieczne, kiedyś w niebie tam.\n\n3. Czemu ty, o drogie serce młode, Ze zbawieniem własnej duszy swej Ciągle zwlekasz, czemu w świat spoglądasz, Tam, gdzie pożądliwość wodzi rej? Tam w oddali, gdzieś w ukryciu, Grzechu się zaczaił kłam. Kiedy wpadniesz w jego sidła srogie, Trudno będzie się uwolnić z nich.\n\n4. Nie wchodź nigdy na szeroką drogę, Do przekleństwa wiedzie koniec jej. Jezus zna pragnienie twe, młodzieńcze. Pełnię szczęścia dać chce duszy twej. Jemu oddaj się w młodości. Prędko mknie za rokiem rok, [:Nigdy więc nie pożałujesz tego, Żeś się raz na ten odważył krok:.]"
+      "content": "1. Już cię żegnam, zły, przewrotny świecie. Straszny grzech twój wokół śmiercią tchnie. Twa wesołość szumna, powierzchowna, Nie jest w stanie zadowolić mnie. Czegoś więcej pragnę, szukam. W sercu mym tęsknoty łzy, Kto zrozumie mnie, kto sprawi ulgę? O, mój Panie Jezu, tylko Ty.\n\n2. Zostawiłem grzech swój całkowicie. Tyś go ze mnie zdjął w dobroci swej. Jestem wolny, odkąd moje życie, Panie, chcę poświęcić prawdzie Twej, Wiernie krocząc Twymi ślady Złośnikowi odpór dać. A gdy życie moje się zakończy, Dasz mi wieczne, kiedyś w niebie tam.\n\n3. Czemu ty, o drogie serce młode, Ze zbawieniem własnej duszy swej Ciągle zwlekasz, czemu w świat spoglądasz, Tam, gdzie pożądliwość wodzi rej? Tam w oddali, gdzieś w ukryciu, Grzechu się zaczaił kłam. Kiedy wpadniesz w jego sidła srogie, Trudno będzie się uwolnić z nich.\n\n4. Nie wchodź nigdy na szeroką drogę, Do przekleństwa wiedzie koniec jej. Jezus zna pragnienie twe, młodzieńcze. Pełnię szczęścia dać chce duszy twej. Jemu oddaj się w młodości. Prędko mknie za rokiem rok, [:Nigdy więc nie pożałujesz tego, Żeś się raz na ten odważył krok.:]"
     },
     {
       "number": 1157,
@@ -5829,7 +5829,7 @@
     {
       "number": 1166,
       "title": "Którzy oczekują Pana",
-      "content": "Refren: [:Którzy oczekują Pana Nabywają nowych sił. Podnoszą się w górę jak orły, Chodzą, a nie ustawają, Biegnąc nie spracują się. Naucz mnie oczekiwać Cię.\n\n1. Naucz, Panie, czekać Ciebie Na kolanach co dnia, Aż na moją modlitwę Odpowiedź swą dasz. Naucz nie szukać tego, Co człowiek daje mi, Tylko czekać na Ciebie, Na to, co dasz Ty.:]"
+      "content": "Refren: [:Którzy oczekują Pana Nabywają nowych sił. Podnoszą się w górę jak orły, Chodzą, a nie ustawają, Biegnąc nie spracują się. Naucz mnie oczekiwać Cię.:]\n\n1. Naucz, Panie, czekać Ciebie Na kolanach co dnia, Aż na moją modlitwę Odpowiedź swą dasz. Naucz nie szukać tego, Co człowiek daje mi, Tylko czekać na Ciebie, Na to, co dasz Ty."
     },
     {
       "number": 1167,
@@ -5924,7 +5924,7 @@
     {
       "number": 1185,
       "title": "Mój Pan drogę zna",
-      "content": "1. [:Mój Pan drogę zna przez największy gąszcz, Ja zaś tylko za nim kroczę.:] Siły na dziś On daje mi, O jutro już się nie troszczę. Bo mój Pan drogę zna przez największy gąszcz, Ja zaś tylko za Nim kroczę.:]"
+      "content": "1. [:Mój Pan drogę zna przez największy gąszcz, Ja zaś tylko za nim kroczę.:] Siły na dziś On daje mi, O jutro już się nie troszczę. [:Bo mój Pan drogę zna przez największy gąszcz, Ja zaś tylko za Nim kroczę.:]"
     },
     {
       "number": 1186,
@@ -6194,7 +6194,7 @@
     {
       "number": 1239,
       "title": "O Panie usłysz słowa moje",
-      "content": "1. [:O Panie, usłysz słowa me I przejmij się mym westchnieniem. Zważ na głos błagania mego dziś, Mój Królu i Boże mój.\n\n2. Do Ciebie bowiem modlę się, Od rana racz słuchać głosu mego. O świcie, mój Panie, Do Ciebie zwracam się I z poranku oczekuję Cię.:]"
+      "content": "1. [:O Panie, usłysz słowa me I przejmij się mym westchnieniem. Zważ na głos błagania mego dziś, Mój Królu i Boże mój.:]\n\n2. [:Do Ciebie bowiem modlę się, Od rana racz słuchać głosu mego. O świcie, mój Panie, Do Ciebie zwracam się I z poranku oczekuję Cię.:]"
     },
     {
       "number": 1240,
@@ -6544,7 +6544,7 @@
     {
       "number": 1309,
       "title": "Królestwo Boże",
-      "content": "1. Królestwo Boże w oczekiwaniu Dziesięciu pannom podobne jest. Wzięły swe lampy przygotowane, [:By z oblubieńcem swym spotkać się.:]\n\n2. Panien tych dziesięć wyczekiwało, Aż oblubieniec w ozdobie swej Przybędzie do nich, da w serca radość, [:Daruje pokój po wieków wiek.:]\n\n3. Lecz pięć z nich mądrych, a pięć też głupich, Oczekiwało, by przyszedł Pan. Gdy czas upływał im w chwilach długich [:Posnęły wszystkie, nim przyszedł Pan.:]\n\n4. Te panny, które były mądrymi, O to zadbały, by wszystko mieć. Oleju dosyć z lampami swymi [:Zabrały, aby zaświecić wnet.:]\n\n5. Głupie gotowe na to nie były, Bo wprawdzie lampy miały, lecz cóż, Kiedy oleju nie nakupiły. [:Nie mogły świecić, gdy Pan tuż, tuż.:]\n\n5. A o północy, kiedy tak spały, Rozległ się okrzyk: „Już idzie Pan, Wasz oblubieniec. On tak wspaniały, [:Naprzeciw wyjdźcie, już witać czas”.:]\n\n6. Wyszły z lampami wszystkie przed Niego, Lecz głupie rzekły do mądrych wraz: „Użyczcie dla nas oleju swego, [:Bo lampy nasze wciąż gasną nam”.:]\n\n7. „Nie użyczymy — odrzekły mądre — Bo zabraknie wszystkim, nam jak i wam. Idźcie, a kupcie u sprzedających, [:A płomień w lampach nie będzie gasł”.:]\n\n8. Poszły kupować, a oblubieniec Przyszedł do mądrych z pięknością swą. Które gotowe — wziął na wesele [:I wszystkie drzwi wnet zamknione są.:]\n\n9. A potem drugie przyszły spóźnione, Poczęły wołać: „Wpuść też i nas!”. Więc Pan powiedział im słowa srogie: [„:Zaprawdę trudno, ja nie znam was”.:]\n\n10. Pan Jezus mówi nam w przypowieści, Byśmy czuwali na każdy czas. Bo kiedy przyjdzie, my Boże dzieci [:Weźmiemy życia wiecznego dar.:]"
+      "content": "1. Królestwo Boże w oczekiwaniu Dziesięciu pannom podobne jest. Wzięły swe lampy przygotowane, [:By z oblubieńcem swym spotkać się.:]\n\n2. Panien tych dziesięć wyczekiwało, Aż oblubieniec w ozdobie swej Przybędzie do nich, da w serca radość, [:Daruje pokój po wieków wiek.:]\n\n3. Lecz pięć z nich mądrych, a pięć też głupich, Oczekiwało, by przyszedł Pan. Gdy czas upływał im w chwilach długich [:Posnęły wszystkie, nim przyszedł Pan.:]\n\n4. Te panny, które były mądrymi, O to zadbały, by wszystko mieć. Oleju dosyć z lampami swymi [:Zabrały, aby zaświecić wnet.:]\n\n5. Głupie gotowe na to nie były, Bo wprawdzie lampy miały, lecz cóż, Kiedy oleju nie nakupiły. [:Nie mogły świecić, gdy Pan tuż, tuż.:]\n\n5. A o północy, kiedy tak spały, Rozległ się okrzyk: „Już idzie Pan, Wasz oblubieniec. On tak wspaniały, [:Naprzeciw wyjdźcie, już witać czas”.:]\n\n6. Wyszły z lampami wszystkie przed Niego, Lecz głupie rzekły do mądrych wraz: „Użyczcie dla nas oleju swego, [:Bo lampy nasze wciąż gasną nam”.:]\n\n7. „Nie użyczymy — odrzekły mądre — Bo zabraknie wszystkim, nam jak i wam. Idźcie, a kupcie u sprzedających, [:A płomień w lampach nie będzie gasł”.:]\n\n8. Poszły kupować, a oblubieniec Przyszedł do mądrych z pięknością swą. Które gotowe — wziął na wesele [:I wszystkie drzwi wnet zamknione są.:]\n\n9. A potem drugie przyszły spóźnione, Poczęły wołać: „Wpuść też i nas!”. Więc Pan powiedział im słowa srogie: [:„Zaprawdę trudno, ja nie znam was”.:]\n\n10. Pan Jezus mówi nam w przypowieści, Byśmy czuwali na każdy czas. Bo kiedy przyjdzie, my Boże dzieci [:Weźmiemy życia wiecznego dar.:]"
     },
     {
       "number": 1310,
@@ -8319,7 +8319,7 @@
     {
       "number": 1664,
       "title": "Umiłował nas Zbawiciel",
-      "content": "1. Umiłował nas Zbawiciel, Udowodnił nam, Na krzyż wyciągnięte ręce — każdy widział sam. Za nas wszystkich tam, w cierpieniu, Ciężko skonał On I krew świętą przelewając Podał zbawczą dłoń.\n\nRefren: [:Zaprawdę On zmartwychwstał trzeciego dnia, Zaprawdę wtedy powstał Chrystus Pan, Zaprawdę żyje wciąż i jest ten sam, [:Tu w sercu mym,:]] W sercu mym.\n\n2. Odrzuć wszelki ciężar grzechu, Przyjmij Pana dziś. Jego rąk, tak pełnych szczęścia, Wszędzie szukać chciej. Tam jest radość, tam jest wieczność, Prosty w niebo szlak. Powstał z martwych nasz Zbawiciel – Wierzmy, ty i ja.\n\n3. Uciekają lata, wieki W zapomnienia dal. W naszym życiu dni tak mało, Wybierz dziś swój szlak. Jezus drogę nam pokazał, Pójdźmy za nim wraz, Tylko z nim dojdziemy bowiem Do niebieskich bram."
+      "content": "1. Umiłował nas Zbawiciel, Udowodnił nam, Na krzyż wyciągnięte ręce — każdy widział sam. Za nas wszystkich tam, w cierpieniu, Ciężko skonał On I krew świętą przelewając Podał zbawczą dłoń.\n\nRefren: [:Zaprawdę On zmartwychwstał trzeciego dnia, Zaprawdę wtedy powstał Chrystus Pan, Zaprawdę żyje wciąż i jest ten sam, [:Tu w sercu mym,:]:] W sercu mym.\n\n2. Odrzuć wszelki ciężar grzechu, Przyjmij Pana dziś. Jego rąk, tak pełnych szczęścia, Wszędzie szukać chciej. Tam jest radość, tam jest wieczność, Prosty w niebo szlak. Powstał z martwych nasz Zbawiciel – Wierzmy, ty i ja.\n\n3. Uciekają lata, wieki W zapomnienia dal. W naszym życiu dni tak mało, Wybierz dziś swój szlak. Jezus drogę nam pokazał, Pójdźmy za nim wraz, Tylko z nim dojdziemy bowiem Do niebieskich bram."
     },
     {
       "number": 1665,
@@ -8504,7 +8504,7 @@
     {
       "number": 1701,
       "title": "Wiele razy mi się śniło",
-      "content": "1. Wiele razy mi się śniło Szczęście, które gdzieś było, Ale sam już nie wiedziałem, Odgadnąć go nie umiałem. Chrystus Pan, pewnego dnia, Wyciągnął ku mnie swą dłoń. Wtedy właśnie zrozumiałem, Że to ja za nim pójść miałem.\n\nRefren: [:Jezu, ja Ci dziękuję,:] to moje jedyne słowa, więcej mówić nie umiem!:]\n\n2. Moim szczęściem, właśnie tutaj, Jezusa mego być uczniem, Jego nauki pilnie słuchać, Woli Jego być miłośnikiem. Kocham, kocham, kocham Go mocno, Kocham Go z całego serca. On uczynił mnie ludzi bratem, Całe życie Jemu poświęcam."
+      "content": "1. Wiele razy mi się śniło Szczęście, które gdzieś było, Ale sam już nie wiedziałem, Odgadnąć go nie umiałem. Chrystus Pan, pewnego dnia, Wyciągnął ku mnie swą dłoń. Wtedy właśnie zrozumiałem, Że to ja za nim pójść miałem.\n\nRefren: [:[:Jezu, ja Ci dziękuję,:] to moje jedyne słowa, więcej mówić nie umiem!:]\n\n2. Moim szczęściem, właśnie tutaj, Jezusa mego być uczniem, Jego nauki pilnie słuchać, Woli Jego być miłośnikiem. Kocham, kocham, kocham Go mocno, Kocham Go z całego serca. On uczynił mnie ludzi bratem, Całe życie Jemu poświęcam."
     },
     {
       "number": 1702,
