@@ -19,7 +19,8 @@ class SongBottomBar extends StatelessWidget {
 
   final VoidCallback? onPrevious;
   final VoidCallback? onNext;
-  final VoidCallback onGoToNumber;
+  /// Null hides the magnifying glass, e.g. in a song list, where the arrows go through the list.
+  final VoidCallback? onGoToNumber;
 
   /// In a song list: the numbers are positions on the list, shown as „2/7”, and this is its length.
   final int? total;
@@ -30,7 +31,7 @@ class SongBottomBar extends StatelessWidget {
     required this.nextNumber,
     required this.onPrevious,
     required this.onNext,
-    required this.onGoToNumber,
+    this.onGoToNumber,
     this.total,
   });
 
@@ -59,7 +60,7 @@ class SongBottomBar extends StatelessWidget {
                 total: total,
                 onTap: onPrevious,
               ),
-              Expanded(child: _GoToNumber(onTap: onGoToNumber)),
+              Expanded(child: onGoToNumber == null ? const SizedBox.shrink() : _GoToNumber(onTap: onGoToNumber!)),
               _Arrow(
                 icon: Icons.chevron_right,
                 label: 'Następna pieśń',

@@ -231,7 +231,6 @@ class SongDetailViewState extends State<SongDetailView> {
                   total: _count,
                   onPrevious: () => _turnTo(_index - 1),
                   onNext: () => _turnTo(_index + 1),
-                  onGoToNumber: _showSearchDialog,
                 ),
         );
       },
@@ -324,23 +323,6 @@ class SongDetailViewState extends State<SongDetailView> {
   Future<void> _showSearchDialog() async {
     final target = await showGoToSongDialog(context, widget.viewModel);
     if (!mounted || target == null) {
-      return;
-    }
-    if (_list != null) {
-      // Going to a number leaves the list: the songbook opens at that song, in place of this screen.
-      Navigator.pushReplacement(
-        context,
-        PageRouteBuilder(
-          transitionDuration: Duration.zero,
-          reverseTransitionDuration: Duration.zero,
-          pageBuilder: (context, _, __) => SongDetailView(
-            song: target,
-            viewModel: widget.viewModel,
-            playlistViewModel: widget.playlistViewModel,
-            onOpenPlaylist: widget.onOpenPlaylist,
-          ),
-        ),
-      );
       return;
     }
     // Opening the book at a page, not turning through the pages in between: no animation.
