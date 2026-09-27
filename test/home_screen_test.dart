@@ -9,6 +9,7 @@ import 'package:spiewnik/model/song_model.dart';
 import 'package:spiewnik/theme/theme.dart';
 import 'package:spiewnik/view/playlist_detail_view.dart';
 import 'package:spiewnik/view/song_detail_view.dart';
+import 'package:spiewnik/view/whats_new_sheet.dart';
 import 'package:spiewnik/view/widgets/app_navigation_bar.dart';
 import 'package:spiewnik/view/my_song_form_view.dart';
 import 'package:spiewnik/view/my_songs_view.dart';
@@ -25,15 +26,25 @@ void main() {
   });
   tearDown(() => testStore.close());
 
-  Future<void> pumpHomeScreen(WidgetTester tester) async {
+  Future<void> pumpHomeScreen(WidgetTester tester, {bool showWhatsNew = false}) async {
     await tester.pumpWidget(
       ChangeNotifierProvider(
         create: (_) => FontSizeModel(),
-        child: MaterialApp(theme: lightTheme, home: HomeScreen(store: testStore.store)),
+        child: MaterialApp(theme: lightTheme, home: HomeScreen(store: testStore.store, showWhatsNew: showWhatsNew)),
       ),
     );
     await tester.pumpAndSettle();
   }
+
+  testWidgets('opens „Co nowego” over the song list when asked to', (tester) async {
+    await pumpHomeScreen(tester, showWhatsNew: true);
+    expect(find.byType(WhatsNewSheet), findsOneWidget);
+  });
+
+  testWidgets('does not open „Co nowego” otherwise', (tester) async {
+    await pumpHomeScreen(tester);
+    expect(find.byType(WhatsNewSheet), findsNothing);
+  });
 
   testWidgets('opens user songs from the third tab', (tester) async {
     await pumpHomeScreen(tester);

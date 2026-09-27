@@ -65,6 +65,11 @@ Check which numbers are in the stores:
 When the song data changes, also bump `dataVersion` in `assets/songs_data.json`: without it the fixes will not
 reach existing users.
 
+**„Co nowego” (What's new).** After an update to a new minor version the app shows the list of changes once
+(`lib/whats_new.dart`, `lib/view/whats_new_sheet.dart`). For a release with changes worth telling users about,
+set `WhatsNew.release` to its major.minor (e.g. `12.2`) and rewrite `WhatsNewSheet.items`: what changed and
+where to find it. A patch release (12.1.1) shows nothing; leaving `release` as it was shows nothing either.
+
 ---
 
 ## 1. Android

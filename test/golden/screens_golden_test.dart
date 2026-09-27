@@ -14,6 +14,7 @@ import 'package:spiewnik/view/song_detail_view.dart';
 import 'package:spiewnik/view/widgets/go_to_number_icon.dart';
 import 'package:spiewnik/view/song_list_view.dart';
 import 'package:spiewnik/view/welcome_view.dart';
+import 'package:spiewnik/view/whats_new_sheet.dart';
 import 'package:spiewnik/view/widgets/song_scroll_bar.dart';
 import 'package:spiewnik/viewmodel/my_song_viewmodel.dart';
 import 'package:spiewnik/viewmodel/song_viewmodel.dart';
@@ -321,6 +322,18 @@ void main() {
       (context) => WelcomeView(onContinue: () {}),
       textScale: 2.0,
       afterPump: (tester) => tester.ensureVisible(find.text(WelcomeView.continueLabel)),
+    );
+  }, skip: skipOnOtherPlatforms);
+
+  testWidgets('what is new after an update', (tester) async {
+    await goldenScreen(
+      tester,
+      '23-co-nowego',
+      (context) => Scaffold(
+        appBar: AppBar(title: const Text('Śpiewnik')),
+        body: Center(child: TextButton(onPressed: () => showWhatsNewSheet(context), child: const Text('otwórz'))),
+      ),
+      afterPump: (tester) => tester.tap(find.text('otwórz')),
     );
   }, skip: skipOnOtherPlatforms);
 }
