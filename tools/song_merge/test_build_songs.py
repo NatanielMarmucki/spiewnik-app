@@ -16,7 +16,7 @@ from pathlib import Path
 from typing import Dict, List
 
 import songsrc
-from build_songs import validate_output
+from build_songs import CORRECTIONS_PATH, apply_corrections, validate_output
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 
@@ -89,10 +89,13 @@ class BuildRefusesInvisibleCharactersTest(unittest.TestCase):
             (work / "DECISIONS.md").write_text(f"# DECISIONS\n\n{songsrc.mode_line()}\n", encoding="utf-8")
             songsrc.configure(with_device=True)
             output = work / "songs_data_v2.json"
+            # The real corrections target the real songbook, not this synthetic one.
+            no_corrections = work / "corrections.json"
+            no_corrections.write_text("[]", encoding="utf-8")
 
             result = subprocess.run(
                 [sys.executable, "-B", str(SCRIPT_DIR / "build_songs.py"),
-                 "--work", str(work), "--no-device", "--out", str(output)],
+                 "--work", str(work), "--no-device", "--out", str(output), "--corrections", str(no_corrections)],
                 capture_output=True, text=True, cwd=SCRIPT_DIR,
             )
 
@@ -115,6 +118,37 @@ class BuildRefusesInvisibleCharactersTest(unittest.TestCase):
         connection.commit()
         connection.close()
         (directory / "android.json").write_text(json.dumps({"songs": songs}, ensure_ascii=False), encoding="utf-8")
+
+
+
+class ApplyCorrectionsTest(unittest.TestCase):
+    def test_replaces_the_fragment_in_the_given_song_only(self) -> None:
+        songs = [{"number": 1, "title": "A", "content": "[Czym prędzej:]"}, {"number": 2, "title": "B", "content": "[Czym prędzej:]"}]
+
+        errors = apply_corrections(songs, [{"number": 1, "from": "[Czym", "to": "[:Czym", "why": "test"}])
+
+        self.assertEqual(errors, [])
+        self.assertEqual(songs[0]["content"], "[:Czym prędzej:]")
+        self.assertEqual(songs[1]["content"], "[Czym prędzej:]")
+
+    def test_rejects_a_missing_or_repeated_fragment_and_an_unknown_song(self) -> None:
+        songs = [{"number": 1, "title": "A", "content": "raz raz"}]
+
+        errors = apply_corrections(songs, [
+            {"number": 1, "from": "dwa", "to": "x", "why": "brak"},
+            {"number": 1, "from": "raz", "to": "x", "why": "dwa razy"},
+            {"number": 9, "from": "raz", "to": "x", "why": "nie ma pieśni"},
+        ])
+
+        self.assertEqual(len(errors), 3)
+        self.assertEqual(songs[0]["content"], "raz raz")
+
+    def test_every_correction_in_the_file_has_a_reason(self) -> None:
+        corrections = json.loads(CORRECTIONS_PATH.read_text(encoding="utf-8"))
+
+        for fix in corrections:
+            self.assertEqual(set(fix), {"number", "from", "to", "why"}, fix)
+            self.assertTrue(fix["why"].strip(), fix)
 
 
 if __name__ == "__main__":

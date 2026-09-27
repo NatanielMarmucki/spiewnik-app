@@ -133,12 +133,17 @@ void main() {
 
   group('typos in the data', () {
     test('an unpaired mark stays plain text, not a marker', () {
-      // Song 169: the data has „[Czym prędzej pośpiesz Doń!:]” — the opening mark lost its colon.
-      final blocks = parseSong(169);
-      final withStray = blocks.firstWhere((block) => block.text.contains('Czym prędzej'));
+      // The typo song 169 had until #30: the opening mark lost its colon.
+      final blocks = parser.parse('2. Twe serce czemuż zwleka? [Czym prędzej pośpiesz Doń!:]');
 
-      expect(withStray.inlines.whereType<RepeatMark>(), isEmpty);
-      expect(withStray.text, contains(':]'));
+      expect(blocks.single.inlines.whereType<RepeatMark>(), isEmpty);
+      expect(blocks.single.text, contains(':]'));
+    });
+
+    test('song 169, fixed in #30, has a repeat again', () {
+      final withRepeat = parseSong(169).firstWhere((block) => block.text.contains('Czym prędzej'));
+
+      expect(withRepeat.inlines.whereType<RepeatMark>().map((mark) => mark.text), ['[:', ':]']);
     });
 
     test('a pair in the same block still works', () {
@@ -151,10 +156,10 @@ void main() {
   });
 
   group('data quality', () {
-    /// Blocks in which the repeat marks do not balance. These are typos in the song lyrics
-    /// (see the issue about the data fix). The number must not grow: editing the asset can easily add
-    /// more, and the parser would then show them as plain text, that is, silently.
-    const knownUnpairedBlocks = 14;
+    /// Blocks in which the repeat marks do not balance: typos in the lyrics, which the parser would show
+    /// as plain text, that is, silently. All 14 were fixed in tools/song_merge/corrections.json (#30);
+    /// the number must stay at 0.
+    const knownUnpairedBlocks = 0;
 
     test('the number of blocks with unpaired marks does not grow', () {
       final offenders = <String>[];
