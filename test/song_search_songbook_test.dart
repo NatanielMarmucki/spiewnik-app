@@ -126,5 +126,25 @@ void main() {
       expect(search('o').length, lessThan(songbook.length ~/ 2));
     });
   });
-}
 
+  group('what the content is split on (#49)', () {
+    test('verse numbers from 10 up leave no lone 0 behind: "0" finds songs by number only', () {
+      final found = search('0');
+      expect(found, isNotEmpty);
+      expect(found.where((number) => !'$number'.contains('0')), isEmpty);
+    });
+
+    test('the x of repeat markers (/x3, 3x) is not a word; only a title with „(X)” matches', () {
+      expect(search('x'), [870]);
+    });
+
+    test('a hyphen separates words instead of gluing them: "Wiesz-li" is "wiesz li"', () {
+      expect(search('wiesz li'), contains(1863));
+      expect(search('wiesz-li'), contains(1863));
+    });
+
+    test('a word right after a repeat marker still matches from its start', () {
+      expect(search('jerycho'), contains(1013));
+    });
+  });
+}
