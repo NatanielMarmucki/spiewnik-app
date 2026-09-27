@@ -7,6 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:spiewnik/model/my_song_model.dart';
 import 'package:spiewnik/model/playlist_model.dart';
+import 'package:spiewnik/model/song_categories.dart';
 import 'package:spiewnik/model/song_model.dart';
 import 'package:spiewnik/theme/theme.dart';
 import 'package:spiewnik/view/my_tab_view.dart';
@@ -177,6 +178,40 @@ void main() {
 
       expect(titles(list), ['Pieśń 8', 'Pieśń 114', 'Wieczorna', 'Pieśń 4']);
     });
+  });
+
+  testWidgets('the picker filters by categories and hides user songs then', (tester) async {
+    final filtered = SongViewModel(
+      songs.repository,
+      categories: const SongCategories([
+        SongCategory(id: 'IV', name: 'Społeczność świętych', subcategories: [
+          SongSubcategory(id: 22, categoryId: 'IV', name: 'Ślub', songs: [8, 12]),
+        ]),
+      ]),
+    );
+    final list = playlists.create(draft('Ślub'));
+    await pumpScreen(tester, (context) => PlaylistDetailView(playlistId: list.id, viewModel: playlists, songs: filtered));
+    await tester.tap(find.byTooltip('Dodaj pieśni'));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.bySemanticsLabel('Filtruj według kategorii'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Społeczność świętych'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Ślub').last);
+    await tester.pump();
+    await tester.tap(find.text('Pokaż 2 pieśni'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Pieśń 4'), findsNothing);
+    expect(find.text('Wieczorna'), findsNothing);
+    expect(find.bySemanticsLabel('Usuń filtr: Ślub'), findsOneWidget);
+    await tester.tap(find.text('Pieśń 12'));
+    await tester.pump();
+    await tester.tap(find.text('Dodaj 1 pieśń'));
+    await tester.pumpAndSettle();
+    expect(titles(list), ['Pieśń 12']);
+    expect(songs.subcategoryFilter, isEmpty, reason: 'the Śpiewnik tab keeps its own filter');
   });
 
   group('a list', () {

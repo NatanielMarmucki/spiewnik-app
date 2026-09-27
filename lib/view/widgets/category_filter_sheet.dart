@@ -313,3 +313,70 @@ class _CheckRow extends StatelessWidget {
     );
   }
 }
+
+/// The „sliders” button next to the search field. With a filter on: accent icon on the surface and a
+/// badge with the number of selected subcategories.
+class CategoryFilterButton extends StatelessWidget {
+  final int selectedCount;
+  final VoidCallback onPressed;
+
+  const CategoryFilterButton({super.key, required this.selectedCount, required this.onPressed});
+
+  static const double size = 48.0;
+  static const double badgeSize = 16.0;
+
+  @override
+  Widget build(BuildContext context) {
+    final appColors = context.appColors;
+    final active = selectedCount > 0;
+    return Semantics(
+      button: true,
+      label: 'Filtruj według kategorii',
+      value: active ? 'wybrano ${plural(selectedCount, 'kategorię', 'kategorie', 'kategorii')}' : null,
+      onTap: onPressed,
+      container: true,
+      excludeSemantics: true,
+      child: Material(
+        color: active ? Theme.of(context).colorScheme.surfaceContainer : Colors.transparent,
+        shape: const CircleBorder(),
+        child: InkWell(
+          onTap: onPressed,
+          customBorder: const CircleBorder(),
+          child: SizedBox.square(
+            dimension: size,
+            child: Stack(
+              alignment: Alignment.center,
+              clipBehavior: Clip.none,
+              children: [
+                Icon(Icons.tune, size: 18.0, color: active ? appColors.accent : appColors.textSecondary),
+                if (active)
+                  Positioned(
+                    top: 6.0,
+                    right: 6.0,
+                    child: Container(
+                      constraints: const BoxConstraints(minWidth: badgeSize, minHeight: badgeSize),
+                      padding: const EdgeInsets.symmetric(horizontal: 3.0),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: appColors.accent,
+                        borderRadius: BorderRadius.circular(badgeSize / 2),
+                      ),
+                      child: Text(
+                        '$selectedCount',
+                        style: TextStyle(
+                          fontSize: 10.0,
+                          height: 1.0,
+                          fontWeight: FontWeight.w600,
+                          color: appColors.onAccent,
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

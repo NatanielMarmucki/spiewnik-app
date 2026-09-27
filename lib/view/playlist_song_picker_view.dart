@@ -6,6 +6,7 @@ import 'package:spiewnik/model/polish_plural.dart';
 import 'package:spiewnik/model/song_model.dart';
 import 'package:spiewnik/theme/app_colors.dart';
 import 'package:spiewnik/view/add_to_playlist_sheet.dart';
+import 'package:spiewnik/view/widgets/category_filter_sheet.dart';
 import 'package:spiewnik/view/widgets/section_header.dart';
 import 'package:spiewnik/view/widgets/song_list_tile.dart';
 import 'package:spiewnik/viewmodel/playlist_viewmodel.dart';
@@ -51,7 +52,7 @@ class PlaylistSongPickerView extends StatefulWidget {
 
 class _PlaylistSongPickerViewState extends State<PlaylistSongPickerView> {
   /// A search of its own, so the one in the Śpiewnik tab stays as the user left it.
-  late final SongViewModel _search = SongViewModel(widget.songs.repository);
+  late final SongViewModel _search = SongViewModel(widget.songs.repository, categories: widget.songs.categories);
   late final List<MySong> _mySongs = widget.playlists.mySongs.all();
   late final Set<SongRef> _onList = {...?widget.playlists.byId(widget.playlistId)?.refs};
 
@@ -63,7 +64,23 @@ class _PlaylistSongPickerViewState extends State<PlaylistSongPickerView> {
     setState(() => _picked.remove(entry.ref) == null ? _picked[entry.ref] = entry : null);
   }
 
+  Future<void> _openFilter() async {
+    final selected = await showCategoryFilterSheet(
+      context,
+      categories: _search.categories,
+      selected: _search.subcategoryFilter,
+      songCount: _search.songCountIn,
+    );
+    if (selected != null) {
+      setState(() => _search.subcategoryFilter = selected);
+    }
+  }
+
+  /// User songs have no category, so a filter hides them.
   List<MySong> get _matchingMySongs {
+    if (_search.subcategoryFilter.isNotEmpty) {
+      return const [];
+    }
     final query = removePolishDiacritics(_query.trim().toLowerCase());
     return [
       for (final song in _mySongs)
@@ -100,23 +117,51 @@ class _PlaylistSongPickerViewState extends State<PlaylistSongPickerView> {
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(16.0, 4.0, 16.0, 8.0),
-            child: TextField(
-              autofocus: true,
-              style: Theme.of(context).textTheme.bodyMedium,
-              decoration: InputDecoration(
-                hintText: 'Numer, tytuł albo słowa',
-                isDense: true,
-                contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-                prefixIcon: Icon(Icons.search, size: 15.0, color: appColors.textSecondary),
-                prefixIconConstraints: const BoxConstraints(minWidth: 44.0, minHeight: 44.0),
-              ),
-              onChanged: (value) => setState(() {
-                _query = value;
-                _search.searchText = value.trim();
-              }),
+            padding: const EdgeInsets.fromLTRB(16.0, 4.0, 8.0, 8.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    autofocus: true,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                    decoration: InputDecoration(
+                      hintText: 'Numer, tytuł albo słowa',
+                      isDense: true,
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+                      prefixIcon: Icon(Icons.search, size: 15.0, color: appColors.textSecondary),
+                      prefixIconConstraints: const BoxConstraints(minWidth: 44.0, minHeight: 44.0),
+                    ),
+                    onChanged: (value) => setState(() {
+                      _query = value;
+                      _search.searchText = value.trim();
+                    }),
+                  ),
+                ),
+                if (_search.categories.categories.isNotEmpty) ...[
+                  const SizedBox(width: 4.0),
+                  CategoryFilterButton(selectedCount: _search.subcategoryFilter.length, onPressed: _openFilter),
+                ],
+              ],
             ),
           ),
+          if (_search.subcategoryFilter.isNotEmpty)
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 4.0),
+              child: Row(
+                children: [
+                  for (final subcategory in _search.categories.subcategories)
+                    if (_search.subcategoryFilter.contains(subcategory.id))
+                      Padding(
+                        padding: const EdgeInsets.only(right: 8.0),
+                        child: SubcategoryChip(
+                          label: subcategory.name,
+                          onRemove: () => setState(() => _search.removeFromSubcategoryFilter(subcategory.id)),
+                        ),
+                      ),
+                ],
+              ),
+            ),
           Expanded(
             child: ValueListenableBuilder<List<Song>>(
               valueListenable: _search.filteredSongsNotifier,
