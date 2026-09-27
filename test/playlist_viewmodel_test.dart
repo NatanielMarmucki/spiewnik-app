@@ -135,7 +135,7 @@ void main() {
     expect(PlaylistViewModel.numbersText(details), '„Moja” · 8 · 114');
     expect(
       PlaylistViewModel.shareText(details),
-      'Nabożeństwo niedzielne — niedziela, 4 października 2026\n1. Moja\n2. Pieśń 8 (8)\n3. Pieśń 114 (114)',
+      'Nabożeństwo niedzielne · niedziela, 4 października 2026\n1. Moja\n2. Pieśń 8 (8)\n3. Pieśń 114 (114)',
     );
   });
 

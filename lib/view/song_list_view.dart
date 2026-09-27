@@ -74,7 +74,7 @@ class SongListViewState extends State<SongListView> {
 
   String _hint(Set<int> filter) {
     if (widget.viewModel.isSelecting) {
-      return 'Szukaj — zaznaczenie zostaje';
+      return 'Szukaj (zaznaczenie zostaje)';
     }
     if (filter.isEmpty) {
       return 'Szukaj';

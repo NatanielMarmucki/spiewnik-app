@@ -343,7 +343,7 @@ void main() {
 
       expect(
         share.shares.single['text'],
-        'Nabożeństwo niedzielne — niedziela, 4 października 2026\n1. Pieśń 8 (8)\n2. Pieśń 114 (114)\n3. Wieczorna',
+        'Nabożeństwo niedzielne · niedziela, 4 października 2026\n1. Pieśń 8 (8)\n2. Pieśń 114 (114)\n3. Wieczorna',
       );
     });
 

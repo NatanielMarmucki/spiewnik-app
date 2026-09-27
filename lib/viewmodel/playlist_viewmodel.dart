@@ -256,7 +256,7 @@ class PlaylistViewModel {
   static String shareText(PlaylistDetails details) {
     final date = details.playlist.date;
     return [
-      date == null ? details.playlist.name : '${details.playlist.name} — ${formatDay(date, withYear: true)}',
+      date == null ? details.playlist.name : '${details.playlist.name} · ${formatDay(date, withYear: true)}',
       for (final (index, entry) in details.entries.indexed)
         '${index + 1}. ${entry.title}${entry.number == null ? '' : ' (${entry.number})'}',
     ].join('\n');

@@ -199,7 +199,7 @@ class _PlaylistDetailViewState extends State<PlaylistDetailView> {
                   option: SongOption(
                     icon: Icons.copy_all_outlined,
                     label: 'Duplikuj',
-                    subtitle: playlist.date == null ? null : 'Np. na kolejną niedzielę — data o tydzień później',
+                    subtitle: playlist.date == null ? null : 'Np. na kolejną niedzielę, z datą o tydzień później',
                     onTap: () => close(() => _duplicate(details)),
                   ),
                 ),

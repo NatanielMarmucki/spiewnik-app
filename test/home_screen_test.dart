@@ -86,7 +86,7 @@ void main() {
       expect(find.bySemanticsLabel('Zaznaczono 1'), findsOneWidget);
       expect(find.byType(AppNavigationBar), findsNothing);
       expect(find.text('Dodaj do listy'), findsOneWidget);
-      expect(find.text('Szukaj — zaznaczenie zostaje'), findsOneWidget);
+      expect(find.text('Szukaj (zaznaczenie zostaje)'), findsOneWidget);
 
       await tester.tap(find.text('Pieśń 4'));
       await tester.pumpAndSettle();

@@ -44,7 +44,7 @@ class PlaylistsView extends StatelessWidget {
           return EmptyState(
             icon: Icons.format_list_numbered,
             title: 'Brak list',
-            message: 'Zbierz pieśni pod nabożeństwo, ślub czy próbę chóru — w kolejności, w jakiej będą śpiewane.',
+            message: 'Zbierz pieśni pod nabożeństwo, ślub czy próbę chóru w kolejności, w jakiej będą śpiewane.',
             secondaryActionLabel: '+ Nowa lista',
             onSecondaryAction: () => createPlaylist(context, viewModel, songs),
           );
