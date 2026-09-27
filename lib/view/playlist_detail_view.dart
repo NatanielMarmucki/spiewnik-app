@@ -39,7 +39,7 @@ Future<void> openPlaylist(
 }
 
 /// One song list: its name and date, the songs in their order — rearranged by dragging the handle or with
-/// the row menu — and „Śpiewaj po kolei” (Sing in order).
+/// the row menu — and „Śpiewaj” (Sing in order).
 class PlaylistDetailView extends StatefulWidget {
   final int playlistId;
   final PlaylistViewModel viewModel;
@@ -352,9 +352,8 @@ class _PlaylistDetailViewState extends State<PlaylistDetailView> {
                         const SizedBox(width: 12.0),
                         Expanded(
                           child: OutlinedPillButton(
-                            label: 'Śpiewaj po kolei',
+                            label: 'Śpiewaj',
                             icon: Icons.play_arrow,
-                            accent: true,
                             onPressed: () => _openSong(details, 0),
                           ),
                         ),

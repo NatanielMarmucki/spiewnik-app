@@ -160,7 +160,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(titles(list), ['Pieśń 12']);
-      expect(find.text('Dodaj pieśni'), findsOneWidget, reason: 'the button next to „Śpiewaj po kolei”');
+      expect(find.text('Dodaj pieśni'), findsOneWidget, reason: 'the button next to „Śpiewaj”');
     });
 
     testWidgets('songs already on the list are checked and cannot be picked again', (tester) async {
@@ -267,10 +267,10 @@ void main() {
       expect(titles(list), ['Pieśń 8', 'Pieśń 114', 'Wieczorna']);
     });
 
-    testWidgets('„Śpiewaj po kolei” goes through the list in its order, user songs included', (tester) async {
+    testWidgets('„Śpiewaj” goes through the list in its order, user songs included', (tester) async {
       await pumpList(tester);
 
-      await tester.tap(find.text('Śpiewaj po kolei'));
+      await tester.tap(find.text('Śpiewaj'));
       await tester.pumpAndSettle();
 
       expect(find.byType(SongDetailView), findsOneWidget);
