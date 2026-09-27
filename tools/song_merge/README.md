@@ -33,7 +33,7 @@ python3 compare.py --src ~/song_merge_work
 python3 build_songs.py --work ~/song_merge_work --sync-index
 
 # 4: assets/songs_data_v2.json
-python3 build_songs.py --work ~/song_merge_work --data-version 1
+python3 build_songs.py --work ~/song_merge_work --data-version 2 --no-device
 ```
 
 `compare.py` nie nadpisze istniejących `DECISIONS.md` ani `diffs/` bez `--force`.
@@ -60,6 +60,14 @@ Bez bloku usuwane są puste linie na początku i końcu oraz białe znaki na sam
 
 Automatycznie wypełniane są tylko pieśni różniące się wyłącznie białymi znakami lub końcami linii
 (`auto-whitespace`, decyzja `ios-device`). Wszystkie pozostałe decyzje są puste.
+
+## Poprawki redakcyjne
+
+`corrections.json` (w repozytorium) to błędy wspólne dla wszystkich źródeł, których nie rozstrzygnie wybór
+źródła w `diffs/`, np. niesparowane znaki powtórzenia (#30). Każda poprawka to
+`{"number", "from", "to", "why"}`; fragment `from` musi wystąpić w treści tej pieśni dokładnie raz, inaczej
+skrypt przerywa działanie. Poprawki nakładane są na gotowy wynik, przed walidacją. Po zmianie tego pliku
+przebuduj asset z podbitym `--data-version`.
 
 ## Wynik
 

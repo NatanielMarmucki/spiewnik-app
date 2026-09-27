@@ -215,6 +215,31 @@ FORBIDDEN_CATEGORIES = ("Cc", "Cf", "Zl", "Zp")
 ALLOWED_CHARACTERS = frozenset({"\n", "­"})
 
 
+# --- corrections.json ---------------------------------------------------------
+
+CORRECTIONS_PATH = Path(__file__).resolve().parent / "corrections.json"
+
+
+def apply_corrections(songs: List[Dict[str, object]], corrections: List[Dict[str, object]]) -> List[str]:
+    """Nakłada poprawki redakcyjne na gotowe pieśni, w miejscu. Poprawka to `{"number", "from", "to", "why"}`:
+    fragment `from` musi wystąpić w treści tej pieśni dokładnie raz. Zwraca listę błędów (pusta = wszystko
+    nałożone). Poprawki dotyczą błędów wspólnych dla wszystkich źródeł, których nie da się rozstrzygnąć
+    decyzją w diffs/ (np. niesparowane znaki powtórzenia, #30)."""
+    by_number = {song["number"]: song for song in songs}
+    errors = []
+    for fix in corrections:
+        song = by_number.get(fix["number"])
+        if song is None:
+            errors.append(f"nr {fix['number']}: nie ma takiej pieśni")
+            continue
+        occurrences = song["content"].count(fix["from"])
+        if occurrences != 1:
+            errors.append(f"nr {fix['number']}: fragment {fix['from']!r} występuje {occurrences} razy, oczekiwano 1")
+            continue
+        song["content"] = song["content"].replace(fix["from"], fix["to"])
+    return errors
+
+
 def forbidden_characters(text: str) -> Counter:
     return Counter(
         ch for ch in text
@@ -287,6 +312,8 @@ def main() -> int:
     parser.add_argument("--data-version", type=int, default=1, help="wartość dataVersion (domyślnie 1)")
     parser.add_argument("--sync-index", action="store_true",
                         help="przepisz kolumnę „decyzja” w DECISIONS.md z plików diffs/ i zakończ")
+    parser.add_argument("--corrections", type=Path, default=CORRECTIONS_PATH,
+                        help=f"poprawki redakcyjne nakładane na wynik (domyślnie {CORRECTIONS_PATH.name})")
     parser.add_argument("--no-device", action="store_true",
                         help="tryb bez ios-device.sqlite (musi zgadzać się z trybem compare.py)")
     args = parser.parse_args()
@@ -398,6 +425,11 @@ def main() -> int:
         if resolve_errors:
             raise BuildError("Nie da się pobrać wartości ze wskazanych źródeł:\n  - " + "\n  - ".join(resolve_errors))
 
+        corrections = json.loads(args.corrections.read_text(encoding="utf-8"))
+        correction_errors = apply_corrections(result, corrections)
+        if correction_errors:
+            raise BuildError("Nie da się nałożyć poprawek z corrections.json:\n  - " + "\n  - ".join(correction_errors))
+
         validation = validate_output(result)
         if validation:
             raise BuildError("Walidacja wyniku nie przeszła:\n  - " + "\n  - ".join(validation))
@@ -421,6 +453,7 @@ def main() -> int:
         return 2
 
     print(f"Zapisano {out} (dataVersion={args.data_version}, pieśni: {len(result)})")
+    print(f"Poprawki z corrections.json: {len(corrections)}")
     print(f"Z decyzją: {len(decisions)} (auto-whitespace: {sum(1 for n in decisions if comparison[n].auto_whitespace)})")
     mixed = sum(1 for d in decisions.values() if d.title != d.content)
     print(f"Tytuł i treść z różnych źródeł: {mixed}")

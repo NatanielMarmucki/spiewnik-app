@@ -1,0 +1,16 @@
+[
+  {"number": 169, "from": "[Czym prędzej pośpiesz Doń!:]", "to": "[:Czym prędzej pośpiesz Doń!:]", "why": "#30: otwarcie bez dwukropka"},
+  {"number": 197, "from": "[:Prócz liści nic!]", "to": "[:Prócz liści nic!:]", "why": "#30: zamknięcie bez dwukropka"},
+  {"number": 692, "from": "[Ach, czyż nikt", "to": "[:Ach, czyż nikt", "why": "#30: otwarcie bez dwukropka"},
+  {"number": 697, "from": "[Ażeby każdy", "to": "[:Ażeby każdy", "why": "#30: otwarcie bez dwukropka"},
+  {"number": 841, "from": "miniony dzień.:] A gwiazdy", "to": "miniony dzień.” A gwiazdy", "why": "#30: zamiast zamknięcia cudzysłowu stał znak powtórzenia; pozostałe zwrotki mają ten sam układ „…” [:…:]"},
+  {"number": 1156, "from": "odważył krok:.]", "to": "odważył krok.:]", "why": "#30: kropka wewnątrz znaku zamknięcia"},
+  {"number": 1185, "from": "troszczę. Bo mój Pan", "to": "troszczę. [:Bo mój Pan", "why": "#30: brak otwarcia; powtórzenie jak w pierwszym wierszu"},
+  {"number": 1309, "from": "[„:Zaprawdę trudno", "to": "[:„Zaprawdę trudno", "why": "#30: cudzysłów wewnątrz znaku otwarcia"},
+  {"number": 1664, "from": "[:Tu w sercu mym,:]]", "to": "[:Tu w sercu mym,:]:]", "why": "#30: DO SPRAWDZENIA ZE ŚPIEWNIKIEM — zamknięcie zewnętrznego powtórzenia bez dwukropka"},
+  {"number": 1701, "from": "Refren: [:Jezu, ja Ci dziękuję,:]", "to": "Refren: [:[:Jezu, ja Ci dziękuję,:]", "why": "#30: DO SPRAWDZENIA ZE ŚPIEWNIKIEM — brak otwarcia powtórzenia całego refrenu"},
+  {"number": 1166, "from": "Naucz mnie oczekiwać Cię.", "to": "Naucz mnie oczekiwać Cię.:]", "why": "#30: DO SPRAWDZENIA ZE ŚPIEWNIKIEM — powtórzenie refrenu zamknięte w refrenie zamiast na końcu zwrotki"},
+  {"number": 1166, "from": "Na to, co dasz Ty.:]", "to": "Na to, co dasz Ty.", "why": "#30: DO SPRAWDZENIA ZE ŚPIEWNIKIEM — zamknięcie przeniesione do refrenu"},
+  {"number": 1239, "from": "Mój Królu i Boże mój.", "to": "Mój Królu i Boże mój.:]", "why": "#30: DO SPRAWDZENIA ZE ŚPIEWNIKIEM — powtórzenie zamknięte w pierwszej zwrotce"},
+  {"number": 1239, "from": "2. Do Ciebie bowiem", "to": "2. [:Do Ciebie bowiem", "why": "#30: DO SPRAWDZENIA ZE ŚPIEWNIKIEM — druga zwrotka powtarzana jak pierwsza"}
+]
