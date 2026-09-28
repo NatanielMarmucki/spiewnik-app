@@ -31,6 +31,8 @@ import 'package:spiewnik/model/app_settings_model.dart';
 import 'package:spiewnik/model/font_size_model.dart';
 import 'package:spiewnik/model/song_categories.dart';
 import 'package:spiewnik/post_migration_welcome.dart';
+import 'package:spiewnik/view/whats_new_sheet.dart';
+import 'package:spiewnik/whats_new.dart';
 import 'package:spiewnik/review_service.dart';
 import 'package:spiewnik/theme/theme.dart';
 import 'package:spiewnik/viewmodel/settings_viewmodel.dart';
@@ -51,9 +53,12 @@ final logger = Logger(
 
 const String _kLastRunAppVersionKey = 'last_run_app_version';
 
-Future<void> initializeApp(JsonManager jsonManager) async {
+/// Loads the songs and returns the version that ran before this start (null on a clean install or when it
+/// could not be read) and the current one, for [WhatsNew].
+Future<({String? previous, String? current})> initializeApp(JsonManager jsonManager) async {
   bool shouldForceUpdate = false;
   String? currentAppVersion;
+  String? previousAppVersion;
 
   try {
     logger.i("Starting app initialization and version check...");
@@ -63,6 +68,7 @@ Future<void> initializeApp(JsonManager jsonManager) async {
     currentAppVersion = "${packageInfo.version}+${packageInfo.buildNumber}";
 
     final lastRunAppVersion = prefs.getString(_kLastRunAppVersionKey);
+    previousAppVersion = lastRunAppVersion;
 
     logger.i("Current app version: $currentAppVersion");
     logger.i("Stored app version: $lastRunAppVersion");
@@ -89,6 +95,7 @@ Future<void> initializeApp(JsonManager jsonManager) async {
       logger.e('Failed to save the new app version string!', error: e);
     }
   }
+  return (previous: previousAppVersion, current: currentAppVersion);
 }
 
 void main() async {
@@ -97,12 +104,16 @@ void main() async {
   final objectBoxStore = await openStore();
   final jsonLoader = JsonManager(objectBoxStore, logger);
 
-  await initializeApp(jsonLoader);
+  final versions = await initializeApp(jsonLoader);
   // After the songs are loaded, so favorites from the old iOS app can be matched by number.
   final coreDataResult = await CoreDataMigration.runOnStartup(store: objectBoxStore, logger: logger);
   // Before runApp, so FontSizeModel loads the migrated font size.
   final migratedFontSize = await LegacySettingsMigration(logger: logger).run();
   final categories = await _loadCategories();
+  final showWhatsNew = await WhatsNew(logger: logger).decide(
+    previousVersion: versions.previous,
+    currentVersion: versions.current,
+  );
   // From what the migrations returned in this session, not from their flags: see PostMigrationWelcome.
   final welcome = await PostMigrationWelcome(logger: logger).decide(
     coreDataResult: coreDataResult,
@@ -117,7 +128,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => AppSettingsModel()),
         Provider(create: (_) => SettingsViewModel()),
       ],
-      child: MyApp(store: objectBoxStore, categories: categories, welcome: welcome),
+      child: MyApp(store: objectBoxStore, categories: categories, welcome: welcome, showWhatsNew: showWhatsNew),
     ),
   );
 
@@ -140,6 +151,9 @@ class MyApp extends StatelessWidget {
   final Store store;
   final SongCategories categories;
 
+  /// Opens the „Co nowego” sheet over the home screen once, see [WhatsNew].
+  final bool showWhatsNew;
+
   /// The one-time welcome screen after the migration from the old iOS app, shown first; null skips it.
   final WelcomeVariant? welcome;
 
@@ -148,6 +162,7 @@ class MyApp extends StatelessWidget {
     required this.store,
     this.categories = SongCategories.empty,
     this.welcome,
+    this.showWhatsNew = false,
   });
 
   @override
@@ -163,7 +178,7 @@ class MyApp extends StatelessWidget {
       darkTheme: darkTheme,
       themeMode: context.watch<AppSettingsModel>().themeMode,
       builder: (context, child) => TabletTextScale(child: child!),
-      home: WelcomeGate(welcome: welcome, buildHome: (context) => HomeScreen(store: store, categories: categories)),
+      home: WelcomeGate(welcome: welcome, buildHome: (context) => HomeScreen(store: store, categories: categories, showWhatsNew: showWhatsNew)),
     );
   }
 }
@@ -173,10 +188,14 @@ class HomeScreen extends StatefulWidget {
   final Store store;
   final SongCategories categories;
 
+  /// Opens the „Co nowego” sheet after the first frame.
+  final bool showWhatsNew;
+
   const HomeScreen({
     super.key,
     required this.store,
     this.categories = SongCategories.empty,
+    this.showWhatsNew = false,
   });
 
   @override
@@ -201,6 +220,13 @@ class _HomeScreenState extends State<HomeScreen> {
     );
     // Lists show user songs: a renamed or deleted one has to show so there too.
     mySongViewModel.mySongsNotifier.addListener(playlistViewModel.reload);
+    if (widget.showWhatsNew) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          showWhatsNewSheet(context);
+        }
+      });
+    }
   }
 
   @override

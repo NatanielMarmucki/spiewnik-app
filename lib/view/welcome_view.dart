@@ -26,6 +26,7 @@ class WelcomeView extends StatelessWidget {
     'Tekst pieśni z wyraźnym podziałem na zwrotki i refren',
     'Wyszukiwanie działa też bez polskich znaków',
     'Ustawienia rozmiaru tekstu i interlinii w jednym miejscu',
+    'Filtr kategorii i listy pieśni pod nabożeństwo, ślub czy próbę chóru',
   ];
   static const String continueLabel = 'Zaczynajmy';
   static const String continueSemanticsLabel = 'Zaczynajmy, przejdź do listy pieśni';

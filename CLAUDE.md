@@ -52,7 +52,7 @@ UI po polsku; kod, komentarze, commity i opisy PR po angielsku.
 - `lib/objectbox.g.dart` — tylko przez `build_runner`.
 - `test/fixtures/*.sqlite*` — prawdziwe bazy z iOS, tylko do odczytu. Dane syntetyczne twórz na kopiach
   (`CoreDataFixtures.copyTo` + `changeCopy`) i oznaczaj komentarzem `SYNTHETIC DATA`. Puste `-wal` i `-shm` są celowe.
-- Klucze SharedPreferences (`mySongsShowLists`, `playlistReorderHintSeen`, `fontSize`, `lineHeight`, `launch_count`, `last_run_app_version`, `songs_data_version`,
+- Klucze SharedPreferences (`whatsNewShown`, `mySongsShowLists`, `playlistReorderHintSeen`, `fontSize`, `lineHeight`, `launch_count`, `last_run_app_version`, `songs_data_version`,
   `coreDataMigration*`, `legacySettingsMigrationDone`, `postMigrationWelcomeShown`) — są na urządzeniach użytkowników.
 - `assets/songs_data.json` — generowany przez `tools/song_merge/`, nie edytować ręcznie.
 - `android/key.properties` i `android/upload_certificate.pem` — nie otwierać, nie cytować.
