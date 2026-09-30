@@ -151,3 +151,20 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+# TRIAL (#18): ObjectBox from objectbox-dart main, which has Swift Package Manager support but no release yet.
+dependency_overrides:
+  objectbox:
+    git:
+      url: https://github.com/objectbox/objectbox-dart.git
+      ref: d189611e638e192594baee0b99e4bd78a3ef8b61
+      path: objectbox
+  objectbox_flutter_libs:
+    git:
+      url: https://github.com/objectbox/objectbox-dart.git
+      ref: d189611e638e192594baee0b99e4bd78a3ef8b61
+      path: flutter_libs
+  objectbox_generator:
+    git:
+      url: https://github.com/objectbox/objectbox-dart.git
+      ref: d189611e638e192594baee0b99e4bd78a3ef8b61
+      path: generator

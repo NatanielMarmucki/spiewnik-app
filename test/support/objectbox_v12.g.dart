@@ -126,7 +126,6 @@ Future<obx.Store> openStore({
   bool queriesCaseSensitiveDefault = true,
   String? macosApplicationGroup,
 }) async {
-  await loadObjectBoxLibraryAndroidCompat();
   return obx.Store(
     getObjectBoxModel(),
     directory: directory ?? (await defaultStoreDirectory()).path,
