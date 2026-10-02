@@ -2,6 +2,23 @@
 
 Versions 1.1.0 and 1.2.1 were released before the project moved to Conventional Commits and have no changelog.
 
+## [12.1.0](https://github.com/NatanielMarmucki/spiewnik-app/compare/v12.0.0...v12.1.0) (2026-09-28)
+
+
+### Features
+
+* „Co nowego” once after the update to 12.1 ([#64](https://github.com/NatanielMarmucki/spiewnik-app/issues/64)) ([3575e1a](https://github.com/NatanielMarmucki/spiewnik-app/commit/3575e1a1dc7b920e5a6fd3793d59097e23a8c9e0))
+* category filter and song lists ([#57](https://github.com/NatanielMarmucki/spiewnik-app/issues/57)) ([922e627](https://github.com/NatanielMarmucki/spiewnik-app/commit/922e627d1cb6064bca82487e48c0a947486727af))
+* **search:** show the best 100 results of a search in words ([#60](https://github.com/NatanielMarmucki/spiewnik-app/issues/60)) ([344bb9c](https://github.com/NatanielMarmucki/spiewnik-app/commit/344bb9ca2c9a5e82e5ef7670e9b76d5de7be3695))
+* **tablet:** larger text on tablets ([#54](https://github.com/NatanielMarmucki/spiewnik-app/issues/54)) ([0cfd976](https://github.com/NatanielMarmucki/spiewnik-app/commit/0cfd976eafcb51b3eae2a47fef83bc099083d9ec))
+
+
+### Bug Fixes
+
+* **lists:** no go-to-number search when singing a list ([#63](https://github.com/NatanielMarmucki/spiewnik-app/issues/63)) ([d4ae5ed](https://github.com/NatanielMarmucki/spiewnik-app/commit/d4ae5edb8fc468b4d9f5dd83980e63e0b2085cda))
+* **search:** split song content on non-letters ([#58](https://github.com/NatanielMarmucki/spiewnik-app/issues/58)) ([36fee8d](https://github.com/NatanielMarmucki/spiewnik-app/commit/36fee8d2a4a857788aa45b423d0426a1a9c538ab))
+* **songs:** pair the repeat marks, dataVersion ([#59](https://github.com/NatanielMarmucki/spiewnik-app/issues/59)) ([13922e1](https://github.com/NatanielMarmucki/spiewnik-app/commit/13922e1eca554ef72ada3e3b953f356665ddee0b))
+
 ## 12.0.0 (2026-09-21)
 
 ### Features
